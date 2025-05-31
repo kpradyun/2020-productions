@@ -1,0 +1,1550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2020 Productions | Turning Visions into Victories</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        /* ===== BASE STYLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #0a0a0a;
+            color: #ffffff;
+            overflow-x: hidden;
+            font-family: 'Rajdhani', sans-serif;
+            scroll-behavior: smooth;
+            background: radial-gradient(circle at center, #0a0a0f 0%, #050508 100%);
+        }
+        
+        /* ===== NAVIGATION ===== */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 25px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: background-color 0.3s ease, padding 0.3s ease;
+            backdrop-filter: blur(10px);
+            background: rgba(10, 10, 15, 0.8);
+        }
+        
+        .nav.scrolled {
+            padding: 15px 50px;
+            border-bottom: 1px solid rgba(225, 86, 168, 0.1);
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #ffffff;
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            letter-spacing: 1px;
+        }
+        
+        .logo .spiral-icon {
+            display: inline-block;
+            width: 26px;
+            height: 26px;
+            background: linear-gradient(to right, #e156a8, #1a2fa4);
+            border-radius: 50%;
+            position: relative;
+            animation: rotate 8s linear infinite;
+        }
+        
+        .logo .spiral-icon::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #0a0a0a;
+            transform: translate(-50%, -50%);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 40px;
+        }
+        
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1.1rem;
+            position: relative;
+            padding-bottom: 5px;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(to right, #e156a8, #1a2fa4);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: #e156a8;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .nav-links a i {
+            font-size: 0.9rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .nav-links a:hover i {
+            transform: translateX(3px);
+        }
+        
+        /* ===== PROGRESS BAR ===== */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(to right, #e156a8, #1a2fa4);
+            z-index: 1001;
+            width: 0%;
+        }
+        
+        /* ===== HERO SECTION ===== */
+        #home.hero {
+            background: radial-gradient(ellipse at center, rgba(26, 20, 91, 0.2) 0%, rgba(10, 10, 15, 0) 70%);
+            min-height: 100vh;
+            padding: 0 8vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(225, 86, 168, 0.05) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        
+        .hero h1 {
+            font-size: 5rem;
+            margin-bottom: 30px;
+            background: linear-gradient(to right, #e156a8, #1a2fa4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(225, 86, 168, 0.3);
+            letter-spacing: 2px;
+            font-family: 'Orbitron', sans-serif;
+            line-height: 1.1;
+            position: relative;
+            z-index: 2;
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        .hero h2 {
+            font-size: 2rem;
+            max-width: 900px;
+            line-height: 1.7;
+            color: #b8b8d8;
+            font-family: 'Rajdhani', sans-serif;
+            margin-bottom: 50px;
+            position: relative;
+            z-index: 2;
+            font-weight: 400;
+            animation: fadeInUp 1.2s ease-out;
+        }
+        
+        .explore-btn {
+            background: linear-gradient(to right, #e156a8, #1a2fa4);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            padding: 18px 50px;
+            font-size: 1.3rem;
+            font-family: 'Orbitron', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 25px rgba(225, 86, 168, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            z-index: 2;
+            overflow: hidden;
+            animation: fadeInUp 1.4s ease-out;
+        }
+        
+        .explore-btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .explore-btn:hover::before {
+            left: 100%;
+        }
+        
+        .explore-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 40px rgba(225, 86, 168, 0.6);
+        }
+        
+        /* ===== ENHANCED SPIRAL SERVICES SECTION ===== */
+        #services {
+            padding: 150px 0;
+            background: radial-gradient(ellipse at top, rgba(26, 20, 91, 0.1) 0%, transparent 70%);
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .spiral-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        
+        #spiral-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        
+        .spiral-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            pointer-events: none;
+            background: radial-gradient(circle at center, transparent 60%, rgba(10, 10, 15, 0.8));
+        }
+        
+        .spiral-title {
+            position: absolute;
+            top: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 4rem;
+            font-family: 'Orbitron', sans-serif;
+            text-align: center;
+            background: linear-gradient(to right, #e156a8, #1a2fa4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(225, 86, 168, 0.3);
+            z-index: 20;
+            width: 100%;
+        }
+        
+        .spiral-subtitle {
+            position: absolute;
+            top: 25%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.8rem;
+            color: #b8b8d8;
+            font-family: 'Rajdhani', sans-serif;
+            text-align: center;
+            max-width: 800px;
+            z-index: 20;
+            width: 100%;
+            padding: 0 20px;
+        }
+        
+        .controls-toggle {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(30, 40, 80, 0.85);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 18px;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 18px;
+            letter-spacing: 2px;
+            z-index: 100;
+            box-shadow: 0 0 16px 2px #1A2FA4, 0 0 32px 4px #E156A8 inset;
+            backdrop-filter: blur(4px);
+            text-shadow: 0 0 8px #E156A8, 0 0 2px #1A2FA4;
+            transition: all 0.3s ease;
+        }
+        
+        .controls-toggle:hover {
+            background: rgba(50, 60, 120, 0.95);
+            box-shadow: 0 0 32px 6px #E156A8, 0 0 48px 8px #1A2FA4 inset;
+            transform: scale(1.07);
+        }
+        
+        /* ===== PROJECTS SECTION ===== */
+        #projects {
+            padding: 150px 8vw;
+            background: radial-gradient(ellipse at bottom, rgba(26, 20, 91, 0.1) 0%, transparent 70%);
+            position: relative;
+        }
+        
+        .section-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 100px;
+            font-family: 'Orbitron', sans-serif;
+            text-align: center;
+            background: linear-gradient(to right, #e156a8, #1a2fa4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(225, 86, 168, 0.3);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .projects-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .project-card {
+            position: relative;
+            height: 400px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s ease;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 30px 50px rgba(225, 86, 168, 0.3);
+        }
+        
+        .project-image {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a145b, #0a0a0f);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .project-image::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(10, 10, 15, 0.9), transparent);
+            opacity: 0.8;
+        }
+        
+        .project-image i {
+            font-size: 5rem;
+            color: #e156a8;
+            z-index: 1;
+        }
+        
+        .project-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 30px;
+            z-index: 2;
+        }
+        
+        .project-overlay h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+        }
+        
+        .project-overlay p {
+            font-size: 1.1rem;
+            color: #b8b8d8;
+            font-family: 'Rajdhani', sans-serif;
+            line-height: 1.6;
+        }
+        
+        /* ===== ABOUT US SECTION ===== */
+        #about {
+            padding: 150px 8vw;
+            background: radial-gradient(ellipse at center, rgba(26, 20, 91, 0.1) 0%, transparent 70%);
+            position: relative;
+        }
+        
+        .about-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .about-item {
+            background: rgba(20, 20, 30, 0.6);
+            border-radius: 20px;
+            padding: 40px;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(225, 86, 168, 0.1);
+            backdrop-filter: blur(10px);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .about-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            background: rgba(30, 25, 60, 0.7);
+            border-color: rgba(225, 86, 168, 0.3);
+        }
+        
+        .about-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(to right, #e156a8, #1a2fa4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            font-size: 2rem;
+        }
+        
+        .about-item h3 {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+            letter-spacing: 1px;
+        }
+        
+        .about-item p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #b8b8d8;
+            font-family: 'Rajdhani', sans-serif;
+        }
+        
+        /* ===== CONTACT SECTION ===== */
+        #contact {
+            padding: 150px 8vw;
+            background: radial-gradient(ellipse at top, rgba(26, 20, 91, 0.1) 0%, transparent 70%);
+            position: relative;
+        }
+        
+        .contact-container {
+            display: flex;
+            gap: 60px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .contact-info {
+            flex: 1;
+        }
+        
+        .contact-info p {
+            margin-bottom: 40px;
+            font-size: 1.2rem;
+            font-weight: 400;
+            font-family: 'Rajdhani', sans-serif;
+            line-height: 1.8;
+        }
+        
+        .contact-details {
+            list-style: none;
+        }
+        
+        .contact-details li {
+            margin-bottom: 25px;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+        }
+        
+        .contact-details li i {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(to right, #e156a8, #1a2fa4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+        
+        .contact-details li div h4 {
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+        }
+        
+        .contact-details li div p, 
+        .contact-details li div a {
+            font-size: 1.1rem;
+            color: #b8b8d8;
+            text-decoration: none;
+            font-family: 'Rajdhani', sans-serif;
+            transition: color 0.3s ease;
+        }
+        
+        .contact-details li div a:hover {
+            color: #e156a8;
+        }
+        
+        .map-container {
+            flex: 1;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(225, 86, 168, 0.2);
+            height: 500px;
+        }
+        
+        .map-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a145b, #0a0a0f);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        
+        .map-placeholder i {
+            font-size: 5rem;
+            color: #e156a8;
+            margin-bottom: 30px;
+        }
+        
+        .map-placeholder p {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            text-align: center;
+            max-width: 300px;
+        }
+        
+        /* ===== FOOTER ===== */
+        footer {
+            background: rgba(5, 5, 10, 0.95);
+            padding: 80px 8vw 40px;
+            text-align: center;
+            font-family: 'Rajdhani', sans-serif;
+            position: relative;
+            border-top: 1px solid rgba(225, 86, 168, 0.1);
+        }
+        
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+        
+        .footer-logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            font-family: 'Orbitron', sans-serif;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #e156a8, #1a2fa4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 2px;
+        }
+        
+        .footer-slogan {
+            font-size: 1.8rem;
+            color: #b8b8d8;
+            margin-bottom: 40px;
+            font-weight: 400;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .social-links a {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-size: 1.8rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: linear-gradient(to right, #e156a8, #1a2fa4);
+            transform: translateY(-5px);
+        }
+        
+        .copyright {
+            color: #777;
+            font-size: 1rem;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        /* ===== SERVICE MODAL ===== */
+        .service-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            width: 80%;
+            max-width: 800px;
+            max-height: 80vh;
+            background: rgba(10, 10, 15, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(225, 86, 168, 0.3);
+            box-shadow: 0 0 50px rgba(26, 47, 164, 0.7);
+            overflow-y: auto;
+        }
+        
+        .service-modal.active {
+            opacity: 1;
+            pointer-events: all;
+            transform: translate(-50%, -50%) scale(1);
+        }
+        
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .close-modal:hover {
+            background: rgba(225, 86, 168, 0.3);
+            transform: rotate(90deg);
+        }
+        
+        .modal-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #e156a8, #1a2fa4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .modal-content {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #b8b8d8;
+            margin-bottom: 30px;
+            font-family: 'Rajdhani', sans-serif;
+        }
+        
+        .modal-features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .feature-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 12px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-item:hover {
+            background: rgba(225, 86, 168, 0.1);
+            transform: translateY(-3px);
+        }
+        
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(to right, #e156a8, #1a2fa4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .feature-text h4 {
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .feature-text p {
+            font-size: 1rem;
+            color: #a0a0d0;
+            font-family: 'Rajdhani', sans-serif;
+        }
+        
+        .modal-cta {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .modal-cta-btn {
+            background: linear-gradient(to right, #e156a8, #1a2fa4);
+            border: none;
+            border-radius: 30px;
+            color: white;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-family: 'Orbitron', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(26, 47, 164, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .modal-cta-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 25px rgba(225, 86, 168, 0.7);
+        }
+        
+        /* ===== ANIMATIONS ===== */
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 1200px) {
+            .projects-container,
+            .about-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .contact-container {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 900px) {
+            .nav {
+                padding: 20px 30px;
+            }
+            
+            .nav-links {
+                gap: 20px;
+            }
+            
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+            
+            .hero h2 {
+                font-size: 1.5rem;
+            }
+            
+            .section-title {
+                font-size: 2.5rem;
+            }
+            
+            .spiral-title {
+                font-size: 3rem;
+            }
+            
+            .spiral-subtitle {
+                font-size: 1.4rem;
+            }
+            
+            .projects-container,
+            .about-content {
+                grid-template-columns: 1fr;
+                max-width: 600px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .hero h2 {
+                font-size: 1.3rem;
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+                margin-bottom: 60px;
+            }
+            
+            .spiral-title {
+                font-size: 2.5rem;
+                top: 10%;
+            }
+            
+            .spiral-subtitle {
+                font-size: 1.2rem;
+                top: 20%;
+            }
+            
+            .explore-btn {
+                padding: 15px 40px;
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="#" class="logo">
+            <span class="spiral-icon"></span>
+            2020 PRODUCTIONS
+        </a>
+        <ul class="nav-links">
+            <li><a href="#home"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="#services"><i class="fas fa-layer-group"></i> Services</a></li>
+            <li><a href="#projects"><i class="fas fa-project-diagram"></i> Projects</a></li>
+            <li><a href="#about"><i class="fas fa-users"></i> About</a></li>
+            <li><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Progress bar -->
+    <div class="progress-bar" id="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+
+    <!-- Home Section -->
+    <section id="home" class="hero">
+        <h1>TURNING VISIONS<br>INTO VICTORIES</h1>
+        <h2>
+            We brand, we shoot, we spark the flame,<br>
+            Craft bold stories that build your name.<br>
+            From reels to rallies, slick and smart—<br>
+            We lead with vision, we leave our mark.
+        </h2>
+        <button class="explore-btn" id="explore-btn">Explore Our Services</button>
+    </section>
+
+    <!-- Services Section with Enhanced 3D Spiral -->
+    <section id="services">
+        <div class="spiral-container">
+            <canvas id="spiral-canvas"></canvas>
+            <div class="spiral-overlay"></div>
+            <h2 class="spiral-title">OUR SERVICES</h2>
+            <p class="spiral-subtitle">Navigate through our offerings with this interactive spiral experience</p>
+            <button class="controls-toggle">Free Orbit</button>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <h2 class="section-title">FEATURED PROJECTS</h2>
+        <div class="projects-container">
+            <div class="project-card">
+                <div class="project-image">
+                    <i class="fas fa-vote-yea"></i>
+                </div>
+                <div class="project-overlay">
+                    <h3>TDP Election Campaign</h3>
+                    <p>Influencer marketing, creative content, and digital strategies</p>
+                </div>
+            </div>
+            
+            <div class="project-card">
+                <div class="project-image">
+                    <i class="fas fa-flag"></i>
+                </div>
+                <div class="project-overlay">
+                    <h3>BJP Praja Sangrama Yatra</h3>
+                    <p>Full event coverage, live-streaming, and content creation</p>
+                </div>
+            </div>
+            
+            <div class="project-card">
+                <div class="project-image">
+                    <i class="fas fa-monument"></i>
+                </div>
+                <div class="project-overlay">
+                    <h3>Hyderabad Liberation Day</h3>
+                    <p>Event management, live broadcasts, and digital promotions</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about">
+        <h2 class="section-title">ABOUT US</h2>
+        <div class="about-content">
+            <div class="about-item">
+                <div class="about-icon">
+                    <i class="fas fa-eye"></i>
+                </div>
+                <h3>Our Vision</h3>
+                <p>
+                    At 2020 Productions, we envision a world where brands and leaders don't just compete—they dominate. Through innovative storytelling, data-driven strategies, and relentless creativity, we transform visions into victories. Our mission is simple: to craft campaigns that win markets, elections, and hearts.
+                </p>
+            </div>
+            
+            <div class="about-item">
+                <div class="about-icon">
+                    <i class="fas fa-route"></i>
+                </div>
+                <h3>Our Approach</h3>
+                <p>
+                    Victory demands more than ideas—it requires execution. We blend cutting-edge technology with human insight to create campaigns that resonate and endure. From pixel-perfect animations to grassroots mobilization, we tailor every strategy for maximum impact.
+                </p>
+            </div>
+            
+            <div class="about-item">
+                <div class="about-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3>Our Team</h3>
+                <p>
+                    Behind every 2020 Productions triumph is a squad of rebels, thinkers, and doers. Political strategists, animation wizards, digital mavericks—we're united by one obsession: winning. Our diverse team brings decades of experience to every project.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <h2 class="section-title">CONTACT US</h2>
+        <div class="contact-container">
+            <div class="contact-info">
+                <p>
+                    Ready to transform your vision into victory? Partner with 2020 Productions, where every strategy leads to success. Reach out to us today to start your journey to domination.
+                </p>
+                <ul class="contact-details">
+                    <li>
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h4>Email</h4>
+                            <a href="mailto:info@2020productions.com">info@2020productions.com</a>
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h4>Phone</h4>
+                            <a href="tel:+919993632020">+91 9494856745</a>
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h4>Location</h4>
+                            <p>Plot No.656, 1st Floor, Rd Number 36, Survey Of India Ayyappa Society, Madhapur, Telangana 500081</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="map-container">
+                <div class="map-placeholder">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <p>Our location in Hyderabad, India</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">2020 PRODUCTIONS</div>
+            <div class="footer-slogan">Turning Visions into Victories</div>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+            <div class="copyright">
+                © 2023 2020 Productions. All rights reserved. | Crafted with <i class="fas fa-heart" style="color: #e156a8;"></i> in Hyderabad
+            </div>
+        </div>
+    </footer>
+
+    <!-- Service Modal -->
+    <div class="modal-overlay" id="modal-overlay"></div>
+    <div class="service-modal" id="service-modal">
+        <div class="close-modal" id="close-modal">
+            <i class="fas fa-times"></i>
+        </div>
+        <h2 class="modal-title" id="modal-title">Service Title</h2>
+        <div class="modal-content" id="modal-content">
+            Service description will appear here...
+        </div>
+        <div class="modal-features" id="modal-features">
+            <!-- Features will be added here -->
+        </div>
+        <div class="modal-cta">
+            <button class="modal-cta-btn">Get Started</button>
+        </div>
+    </div>
+
+    <script>
+        // ===== SERVICES DATA =====
+        const services = [
+            {
+                title: "2D & 3D Animation",
+                items: [
+                    "Reels, Shorts & Memes",
+                    "Documentaries & Explainers",
+                    "Cinematic Shoots & Editing"
+                ],
+                icon: "film"
+            },
+            {
+                title: "Logo Design & Identity",
+                items: [
+                    "Brand Strategy & Messaging",
+                    "Campaign Visual Kits",
+                    "Celebrity & Leader Branding"
+                ],
+                icon: "paint-brush"
+            },
+            {
+                title: "Digital Marketing",
+                items: [
+                    "SEO, SEM & Google Ads",
+                    "Social Media Management",
+                    "Influencer Marketing",
+                    "WhatsApp & Mobile Marketing"
+                ],
+                icon: "bullhorn"
+            },
+            {
+                title: "Event Management",
+                items: [
+                    "Political Campaign Planning",
+                    "Event Shoots & Rally Coverage",
+                    "Live Streaming & Broadcast",
+                    "Crowd Management"
+                ],
+                icon: "calendar-alt"
+            },
+            {
+                title: "Web Development",
+                items: [
+                    "Responsive Website Design",
+                    "E-commerce Solutions",
+                    "Custom Web Applications",
+                    "Mobile-Optimized Experiences"
+                ],
+                icon: "laptop-code"
+            },
+            {
+                title: "Video Production",
+                items: [
+                    "Corporate Video Production",
+                    "Commercials & Advertisements",
+                    "Drone Videography",
+                    "Post-Production & Editing"
+                ],
+                icon: "video"
+            }
+        ];
+
+        // ===== 3D SERVICES SPIRAL IMPLEMENTATION =====
+        let scene, camera, renderer;
+        let rectangles = [];
+        let scrollPosition = 0;
+        let targetScrollPosition = 0;
+        let isScrolling = false;
+        let scrollTimeout = null;
+        let hoverHighlightedPanel = null;
+        let isTouch = false;
+        let touchTimeout = null;
+        let touchStart = 0;
+        let lastHighlightPosition = -1;
+        let lastFrameTime = 0;
+        let deltaTime = 0;
+        let controlsEnabled = false;
+        
+        function initSpiral() {
+            // Set up scene
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x0A0A0F);
+            
+            // Set up camera
+            camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
+            
+            // Set up renderer
+            renderer = new THREE.WebGLRenderer({ 
+                canvas: document.getElementById('spiral-canvas'),
+                antialias: true,
+                alpha: true
+            });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            
+            // Create spiral curve
+            const radius = 5;
+            const numRectangles = services.length;
+            const turns = 1.5;
+            const objPerTurn = numRectangles / turns;
+            const totalPoints = 500;
+            const heightStep = 1.5;
+            
+            const points = [];
+            for (let i = 0; i <= totalPoints; i++) {
+                let t = i / totalPoints;
+                let angle = t * turns * Math.PI * 2;
+                let x = Math.cos(angle) * radius;
+                let y = t * turns * heightStep * objPerTurn;
+                let z = Math.sin(angle) * radius;
+                points.push(new THREE.Vector3(x, y, z));
+            }
+            
+            const curve = new THREE.CatmullRomCurve3(points);
+            curve.closed = false;
+            
+            // Glass material
+            const glassMaterial = new THREE.MeshPhysicalMaterial({
+                color: 0xffffff,
+                metalness: 0,
+                roughness: 0.1,
+                transmission: 0.85,
+                thickness: 0.1,
+                transparent: true,
+                opacity: 0.8,
+                ior: 1.45,
+                reflectivity: 0.4,
+                clearcoat: 0.3,
+                clearcoatRoughness: 0.1,
+                side: THREE.DoubleSide
+            });
+            
+            // Create main panels
+            for (let i = 0; i < numRectangles; i++) {
+                let t = i / numRectangles;
+                let position = curve.getPoint(t);
+                
+                let geom = new THREE.BoxGeometry(5, 3, 0.2);
+                let material = glassMaterial.clone();
+                material.color.setHSL(t, 0.5, 0.7);
+                
+                let glassPanel = new THREE.Mesh(geom, material);
+                glassPanel.position.copy(position);
+                glassPanel.userData = {
+                    service: services[i],
+                    index: i
+                };
+                
+                // Create text plane
+                const canvas = document.createElement('canvas');
+                canvas.width = 512;
+                canvas.height = 256;
+                const ctx = canvas.getContext('2d');
+                
+                // Background
+                ctx.fillStyle = 'rgba(10, 10, 15, 0.7)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Title text
+                ctx.font = 'bold 36px Orbitron';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillStyle = '#ffffff';
+                ctx.fillText(services[i].title, canvas.width/2, canvas.height/2);
+                
+                // Icon
+                ctx.font = 'normal 48px "Font Awesome 5 Free"';
+                ctx.fillText(String.fromCharCode(0xf03d), canvas.width/2, canvas.height/2 + 40);
+                
+                const texture = new THREE.CanvasTexture(canvas);
+                const textGeom = new THREE.PlaneGeometry(4.5, 2.5);
+                const textMaterial = new THREE.MeshBasicMaterial({
+                    map: texture,
+                    transparent: true,
+                    side: THREE.DoubleSide
+                });
+                
+                let textPlane = new THREE.Mesh(textGeom, textMaterial);
+                textPlane.position.z = 0.1;
+                glassPanel.add(textPlane);
+                
+                let outward = new THREE.Vector3(position.x, 0, position.z).normalize();
+                let lookAtTarget = new THREE.Vector3().copy(position).add(outward);
+                glassPanel.lookAt(lookAtTarget);
+                
+                scene.add(glassPanel);
+                rectangles.push(glassPanel);
+            }
+            
+            // Initialize camera position
+            startAtFirstPanel();
+            
+            // Add lights
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+            scene.add(ambientLight);
+            
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(5, 10, 7);
+            scene.add(directionalLight);
+            
+            const pointLight1 = new THREE.PointLight(0x1a2fa4, 1.5, 30);
+            pointLight1.position.set(10, 10, 10);
+            scene.add(pointLight1);
+            
+            const pointLight2 = new THREE.PointLight(0xe156a8, 1.5, 30);
+            pointLight2.position.set(-10, 10, -10);
+            scene.add(pointLight2);
+            
+            // Start animation
+            animate();
+            
+            // Handle window resize
+            window.addEventListener('resize', onWindowResize);
+        }
+        
+        function startAtFirstPanel() {
+            const topPanelIndex = services.length - 1;
+            const topPanelPosition = topPanelIndex / services.length;
+            
+            scrollPosition = topPanelPosition;
+            targetScrollPosition = topPanelPosition;
+            
+            let curvePos = new THREE.Vector3(0, 10, 15);
+            let lookAheadPos = new THREE.Vector3(0, 5, 0);
+            
+            camera.position.set(curvePos.x, curvePos.y, curvePos.z);
+            camera.lookAt(lookAheadPos);
+        }
+        
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+        
+        function updateCameraPosition() {
+            let curvePos = new THREE.Vector3(
+                0,
+                10 - scrollPosition * 15,
+                15
+            );
+            
+            camera.position.lerp(curvePos, 0.1);
+            camera.lookAt(0, 5, 0);
+        }
+        
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            // Smooth scrolling
+            scrollPosition += (targetScrollPosition - scrollPosition) * 0.05;
+            
+            // Auto-snap to nearest panel when not scrolling
+            if (!isScrolling) {
+                const nearestRectPos = Math.round(scrollPosition * services.length) / services.length;
+                const distToNearest = Math.abs(scrollPosition - nearestRectPos);
+                
+                if (distToNearest < 0.01) {
+                    scrollPosition = scrollPosition * 0.9 + nearestRectPos * 0.1;
+                }
+            }
+            
+            updateCameraPosition();
+            
+            // Rotate panels
+            rectangles.forEach((rect, index) => {
+                const t = index / services.length;
+                const position = new THREE.Vector3(
+                    Math.sin(t * Math.PI * 2 + scrollPosition * Math.PI * 2) * 5,
+                    5 - scrollPosition * 10 + index * 0.5,
+                    Math.cos(t * Math.PI * 2 + scrollPosition * Math.PI * 2) * 5
+                );
+                
+                rect.position.lerp(position, 0.1);
+                rect.lookAt(camera.position);
+                
+                // Add subtle rotation
+                rect.rotation.y += 0.005;
+            });
+            
+            renderer.render(scene, camera);
+        }
+        
+        // Event listeners for scrolling
+        window.addEventListener('wheel', function(e) {
+            e.preventDefault();
+            
+            isScrolling = true;
+            let scrollDelta = e.deltaY;
+            
+            if (e.deltaMode === 1) scrollDelta *= 33;
+            else if (e.deltaMode === 2) scrollDelta *= 100;
+            
+            targetScrollPosition += scrollDelta * 0.0005;
+            targetScrollPosition = Math.max(0, Math.min(0.999, targetScrollPosition));
+            
+            if (scrollTimeout) clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                isScrolling = false;
+            }, 150);
+        }, { passive: false });
+        
+        // Raycaster for interaction
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
+        
+        function onMouseMove(event) {
+            // Calculate mouse position in normalized device coordinates
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+        }
+        
+        function onClick(event) {
+            // Update the picking ray with the camera and mouse position
+            raycaster.setFromCamera(mouse, camera);
+            
+            // Calculate objects intersecting the picking ray
+            const intersects = raycaster.intersectObjects(rectangles);
+            
+            if (intersects.length > 0) {
+                const service = intersects[0].object.userData.service;
+                openServiceModal(service);
+            }
+        }
+        
+        // Service modal functions
+        function openServiceModal(service) {
+            document.getElementById('modal-title').textContent = service.title;
+            document.getElementById('modal-content').innerHTML = `
+                <p>${service.title} services at 2020 Productions are designed to elevate your brand and capture your audience's attention. Our team of experts crafts visually stunning and strategically sound solutions that deliver results.</p>
+                <p>We combine creativity with technical expertise to create memorable experiences that resonate with your target audience and drive engagement.</p>
+            `;
+            
+            // Clear previous features
+            const modalFeatures = document.getElementById('modal-features');
+            modalFeatures.innerHTML = '';
+            
+            // Add features
+            service.items.forEach(item => {
+                const featureItem = document.createElement('div');
+                featureItem.className = 'feature-item';
+                featureItem.innerHTML = `
+                    <div class="feature-icon">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div class="feature-text">
+                        <h4>${item}</h4>
+                        <p>Professional ${item.toLowerCase()} services tailored to your needs</p>
+                    </div>
+                `;
+                modalFeatures.appendChild(featureItem);
+            });
+            
+            // Show modal
+            document.getElementById('modal-overlay').classList.add('active');
+            document.getElementById('service-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeServiceModal() {
+            document.getElementById('modal-overlay').classList.remove('active');
+            document.getElementById('service-modal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        // Toggle controls
+        function toggleControls() {
+            controlsEnabled = !controlsEnabled;
+            document.querySelector('.controls-toggle').textContent = controlsEnabled ? 'Resume Scroll' : 'Free Orbit';
+        }
+        
+        // Initialize spiral when page loads
+        window.addEventListener('load', () => {
+            initSpiral();
+            
+            // Add event listeners
+            window.addEventListener('mousemove', onMouseMove, false);
+            window.addEventListener('click', onClick, false);
+            document.getElementById('close-modal').addEventListener('click', closeServiceModal);
+            document.getElementById('modal-overlay').addEventListener('click', closeServiceModal);
+            document.getElementById('explore-btn').addEventListener('click', () => {
+                document.getElementById('services').scrollIntoView({ behavior: 'smooth' });
+            });
+            document.querySelector('.controls-toggle').addEventListener('click', toggleControls);
+        });
+        
+        // ===== WEBSITE FUNCTIONALITY =====
+        // Progress bar functionality
+        window.addEventListener('scroll', () => {
+            const progressBar = document.getElementById('progress-bar');
+            const scrollPercentage = 
+                (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+            progressBar.style.width = `${scrollPercentage}%`;
+            
+            // Navbar effect
+            const nav = document.querySelector('.nav');
+            if (window.scrollY > 100) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Project card animations
+        const projectCards = document.querySelectorAll('.project-card');
+        projectCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+        
+        // About item animations
+        const aboutItems = document.querySelectorAll('.about-item');
+        aboutItems.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                item.style.transform = 'translateY(-10px)';
+            });
+            
+            item.addEventListener('mouseleave', () => {
+                item.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>
