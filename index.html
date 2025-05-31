@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2020 Productions | Turning Visions into Victories</title>
+    <title>2020 Productions - Enhanced Experience</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&family=Orbitron:wght@400;500;700&family=Rajdhani:wght@300;400;600&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
         /* ===== BASE STYLES ===== */
         * {
@@ -16,7 +18,7 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             background-color: #0a0a0a;
             color: #ffffff;
@@ -25,7 +27,41 @@
             scroll-behavior: smooth;
             background: radial-gradient(circle at center, #0a0a0f 0%, #050508 100%);
         }
-        
+
+        /* ===== CURSOR STYLES ===== */
+        #cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: transparent;
+            border: 2px solid #ffffff;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease,
+                background-color 0.3s ease;
+        }
+
+        #cursor.hover {
+            width: 60px;
+            height: 60px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        #cursor-dot {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #ffffff;
+            pointer-events: none;
+            z-index: 10000;
+            transform: translate(-50%, -50%);
+            transition: transform 0.05s ease;
+        }
+
         /* ===== NAVIGATION ===== */
         .nav {
             position: fixed;
@@ -41,12 +77,12 @@
             backdrop-filter: blur(10px);
             background: rgba(10, 10, 15, 0.8);
         }
-        
+
         .nav.scrolled {
             padding: 15px 50px;
             border-bottom: 1px solid rgba(225, 86, 168, 0.1);
         }
-        
+
         .logo {
             font-size: 1.8rem;
             font-weight: 700;
@@ -58,7 +94,7 @@
             gap: 12px;
             letter-spacing: 1px;
         }
-        
+
         .logo .spiral-icon {
             display: inline-block;
             width: 26px;
@@ -68,7 +104,7 @@
             position: relative;
             animation: rotate 8s linear infinite;
         }
-        
+
         .logo .spiral-icon::before {
             content: "";
             position: absolute;
@@ -80,13 +116,13 @@
             background: #0a0a0a;
             transform: translate(-50%, -50%);
         }
-        
+
         .nav-links {
             display: flex;
             list-style: none;
             gap: 40px;
         }
-        
+
         .nav-links a {
             color: #ffffff;
             text-decoration: none;
@@ -101,7 +137,7 @@
             letter-spacing: 0.5px;
             transition: color 0.3s ease;
         }
-        
+
         .nav-links a::after {
             content: "";
             position: absolute;
@@ -112,24 +148,24 @@
             background: linear-gradient(to right, #e156a8, #1a2fa4);
             transition: width 0.3s ease;
         }
-        
+
         .nav-links a:hover {
             color: #e156a8;
         }
-        
+
         .nav-links a:hover::after {
             width: 100%;
         }
-        
+
         .nav-links a i {
             font-size: 0.9rem;
             transition: transform 0.3s ease;
         }
-        
+
         .nav-links a:hover i {
             transform: translateX(3px);
         }
-        
+
         /* ===== PROGRESS BAR ===== */
         .progress-bar {
             position: fixed;
@@ -140,7 +176,47 @@
             z-index: 1001;
             width: 0%;
         }
-        
+
+        /* ===== SCROLL INDICATOR ===== */
+        .scroll-indicator {
+            position: fixed;
+            right: 50px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .scroll-dots {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .scroll-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.3);
+            margin: 10px 0;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .scroll-dot.active {
+            background-color: #ffffff;
+            transform: scale(1.5);
+        }
+
+        .scroll-dot.spiral-dot {
+            background-color: rgba(225, 86, 168, 0.3);
+        }
+
+        .scroll-dot.spiral-dot.active {
+            background-color: #e156a8;
+        }
+
         /* ===== HERO SECTION ===== */
         #home.hero {
             background: radial-gradient(ellipse at center, rgba(26, 20, 91, 0.2) 0%, rgba(10, 10, 15, 0) 70%);
@@ -154,7 +230,7 @@
             position: relative;
             overflow: hidden;
         }
-        
+
         .hero::before {
             content: "";
             position: absolute;
@@ -165,7 +241,7 @@
             background: radial-gradient(circle at center, rgba(225, 86, 168, 0.05) 0%, transparent 70%);
             pointer-events: none;
         }
-        
+
         .hero h1 {
             font-size: 5rem;
             margin-bottom: 30px;
@@ -181,7 +257,7 @@
             z-index: 2;
             animation: fadeInUp 1s ease-out;
         }
-        
+
         .hero h2 {
             font-size: 2rem;
             max-width: 900px;
@@ -194,7 +270,7 @@
             font-weight: 400;
             animation: fadeInUp 1.2s ease-out;
         }
-        
+
         .explore-btn {
             background: linear-gradient(to right, #e156a8, #1a2fa4);
             border: none;
@@ -213,7 +289,7 @@
             overflow: hidden;
             animation: fadeInUp 1.4s ease-out;
         }
-        
+
         .explore-btn::before {
             content: "";
             position: absolute;
@@ -224,438 +300,48 @@
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
             transition: 0.5s;
         }
-        
+
         .explore-btn:hover::before {
             left: 100%;
         }
-        
+
         .explore-btn:hover {
             transform: translateY(-5px);
             box-shadow: 0 0 40px rgba(225, 86, 168, 0.6);
         }
-        
-        /* ===== ENHANCED SPIRAL SERVICES SECTION ===== */
-        #services {
-            padding: 150px 0;
-            background: radial-gradient(ellipse at top, rgba(26, 20, 91, 0.1) 0%, transparent 70%);
+
+        /* ===== 3D GLASS SPIRAL STYLES ===== */
+        #experience.glass-spiral-container {
             position: relative;
             height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0a0a0f, #1a145b);
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        
-        .spiral-container {
-            position: relative;
-            width: 100%;
-            height: 100%;
-        }
-        
-        #spiral-canvas {
+
+        .glass-spiral-container canvas {
+            display: block;
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 1;
         }
-        
-        .spiral-overlay {
+
+        .overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 10;
             pointer-events: none;
+            z-index: 10;
             background: radial-gradient(circle at center, transparent 60%, rgba(10, 10, 15, 0.8));
         }
-        
-        .spiral-title {
-            position: absolute;
-            top: 15%;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 4rem;
-            font-family: 'Orbitron', sans-serif;
-            text-align: center;
-            background: linear-gradient(to right, #e156a8, #1a2fa4);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 30px rgba(225, 86, 168, 0.3);
-            z-index: 20;
-            width: 100%;
-        }
-        
-        .spiral-subtitle {
-            position: absolute;
-            top: 25%;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 1.8rem;
-            color: #b8b8d8;
-            font-family: 'Rajdhani', sans-serif;
-            text-align: center;
-            max-width: 800px;
-            z-index: 20;
-            width: 100%;
-            padding: 0 20px;
-        }
-        
-        .controls-toggle {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(30, 40, 80, 0.85);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 18px;
-            cursor: pointer;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            font-size: 18px;
-            letter-spacing: 2px;
-            z-index: 100;
-            box-shadow: 0 0 16px 2px #1A2FA4, 0 0 32px 4px #E156A8 inset;
-            backdrop-filter: blur(4px);
-            text-shadow: 0 0 8px #E156A8, 0 0 2px #1A2FA4;
-            transition: all 0.3s ease;
-        }
-        
-        .controls-toggle:hover {
-            background: rgba(50, 60, 120, 0.95);
-            box-shadow: 0 0 32px 6px #E156A8, 0 0 48px 8px #1A2FA4 inset;
-            transform: scale(1.07);
-        }
-        
-        /* ===== PROJECTS SECTION ===== */
-        #projects {
-            padding: 150px 8vw;
-            background: radial-gradient(ellipse at bottom, rgba(26, 20, 91, 0.1) 0%, transparent 70%);
-            position: relative;
-        }
-        
-        .section-title {
-            font-size: 3.5rem;
-            font-weight: 700;
-            margin-bottom: 100px;
-            font-family: 'Orbitron', sans-serif;
-            text-align: center;
-            background: linear-gradient(to right, #e156a8, #1a2fa4);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 30px rgba(225, 86, 168, 0.3);
-            position: relative;
-            z-index: 2;
-        }
-        
-        .projects-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        .project-card {
-            position: relative;
-            height: 400px;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            transition: all 0.4s ease;
-        }
-        
-        .project-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 30px 50px rgba(225, 86, 168, 0.3);
-        }
-        
-        .project-image {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #1a145b, #0a0a0f);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-        
-        .project-image::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to top, rgba(10, 10, 15, 0.9), transparent);
-            opacity: 0.8;
-        }
-        
-        .project-image i {
-            font-size: 5rem;
-            color: #e156a8;
-            z-index: 1;
-        }
-        
-        .project-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            padding: 30px;
-            z-index: 2;
-        }
-        
-        .project-overlay h3 {
-            font-size: 1.8rem;
-            margin-bottom: 10px;
-            font-family: 'Orbitron', sans-serif;
-            color: #ffffff;
-        }
-        
-        .project-overlay p {
-            font-size: 1.1rem;
-            color: #b8b8d8;
-            font-family: 'Rajdhani', sans-serif;
-            line-height: 1.6;
-        }
-        
-        /* ===== ABOUT US SECTION ===== */
-        #about {
-            padding: 150px 8vw;
-            background: radial-gradient(ellipse at center, rgba(26, 20, 91, 0.1) 0%, transparent 70%);
-            position: relative;
-        }
-        
-        .about-content {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        .about-item {
-            background: rgba(20, 20, 30, 0.6);
-            border-radius: 20px;
-            padding: 40px;
-            transition: all 0.4s ease;
-            border: 1px solid rgba(225, 86, 168, 0.1);
-            backdrop-filter: blur(10px);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .about-item:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-            background: rgba(30, 25, 60, 0.7);
-            border-color: rgba(225, 86, 168, 0.3);
-        }
-        
-        .about-icon {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: linear-gradient(to right, #e156a8, #1a2fa4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 30px;
-            font-size: 2rem;
-        }
-        
-        .about-item h3 {
-            font-size: 1.8rem;
-            margin-bottom: 25px;
-            font-family: 'Orbitron', sans-serif;
-            color: #ffffff;
-            letter-spacing: 1px;
-        }
-        
-        .about-item p {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: #b8b8d8;
-            font-family: 'Rajdhani', sans-serif;
-        }
-        
-        /* ===== CONTACT SECTION ===== */
-        #contact {
-            padding: 150px 8vw;
-            background: radial-gradient(ellipse at top, rgba(26, 20, 91, 0.1) 0%, transparent 70%);
-            position: relative;
-        }
-        
-        .contact-container {
-            display: flex;
-            gap: 60px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        .contact-info {
-            flex: 1;
-        }
-        
-        .contact-info p {
-            margin-bottom: 40px;
-            font-size: 1.2rem;
-            font-weight: 400;
-            font-family: 'Rajdhani', sans-serif;
-            line-height: 1.8;
-        }
-        
-        .contact-details {
-            list-style: none;
-        }
-        
-        .contact-details li {
-            margin-bottom: 25px;
-            display: flex;
-            align-items: flex-start;
-            gap: 20px;
-        }
-        
-        .contact-details li i {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: linear-gradient(to right, #e156a8, #1a2fa4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
-            flex-shrink: 0;
-        }
-        
-        .contact-details li div h4 {
-            font-size: 1.3rem;
-            margin-bottom: 8px;
-            font-family: 'Orbitron', sans-serif;
-            color: #ffffff;
-        }
-        
-        .contact-details li div p, 
-        .contact-details li div a {
-            font-size: 1.1rem;
-            color: #b8b8d8;
-            text-decoration: none;
-            font-family: 'Rajdhani', sans-serif;
-            transition: color 0.3s ease;
-        }
-        
-        .contact-details li div a:hover {
-            color: #e156a8;
-        }
-        
-        .map-container {
-            flex: 1;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(225, 86, 168, 0.2);
-            height: 500px;
-        }
-        
-        .map-placeholder {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #1a145b, #0a0a0f);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-        }
-        
-        .map-placeholder i {
-            font-size: 5rem;
-            color: #e156a8;
-            margin-bottom: 30px;
-        }
-        
-        .map-placeholder p {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.5rem;
-            text-align: center;
-            max-width: 300px;
-        }
-        
-        /* ===== FOOTER ===== */
-        footer {
-            background: rgba(5, 5, 10, 0.95);
-            padding: 80px 8vw 40px;
-            text-align: center;
-            font-family: 'Rajdhani', sans-serif;
-            position: relative;
-            border-top: 1px solid rgba(225, 86, 168, 0.1);
-        }
-        
-        .footer-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 40px;
-        }
-        
-        .footer-logo {
-            font-size: 2.5rem;
-            font-weight: 700;
-            font-family: 'Orbitron', sans-serif;
-            margin-bottom: 20px;
-            background: linear-gradient(to right, #e156a8, #1a2fa4);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: 2px;
-        }
-        
-        .footer-slogan {
-            font-size: 1.8rem;
-            color: #b8b8d8;
-            margin-bottom: 40px;
-            font-weight: 400;
-        }
-        
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-        
-        .social-links a {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(255, 255, 255, 0.05);
-            color: white;
-            font-size: 1.8rem;
-            transition: all 0.3s ease;
-        }
-        
-        .social-links a:hover {
-            background: linear-gradient(to right, #e156a8, #1a2fa4);
-            transform: translateY(-5px);
-        }
-        
-        .copyright {
-            color: #777;
-            font-size: 1rem;
-            padding-top: 40px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        
-        /* ===== SERVICE MODAL ===== */
+
+        /* Service Modal Styles */
         .service-modal {
             position: fixed;
             top: 50%;
@@ -664,10 +350,10 @@
             width: 80%;
             max-width: 800px;
             max-height: 80vh;
-            background: rgba(10, 10, 15, 0.95);
+            background: rgba(10, 10, 15, 0.9);
             border-radius: 20px;
             padding: 40px;
-            z-index: 2000;
+            z-index: 1000;
             opacity: 0;
             pointer-events: none;
             transition: all 0.4s ease;
@@ -676,13 +362,13 @@
             box-shadow: 0 0 50px rgba(26, 47, 164, 0.7);
             overflow-y: auto;
         }
-        
+
         .service-modal.active {
             opacity: 1;
             pointer-events: all;
             transform: translate(-50%, -50%) scale(1);
         }
-        
+
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -690,17 +376,17 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.8);
-            z-index: 1999;
+            z-index: 999;
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.3s ease;
         }
-        
+
         .modal-overlay.active {
             opacity: 1;
             pointer-events: all;
         }
-        
+
         .close-modal {
             position: absolute;
             top: 20px;
@@ -715,12 +401,12 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-        
+
         .close-modal:hover {
             background: rgba(225, 86, 168, 0.3);
             transform: rotate(90deg);
         }
-        
+
         .modal-title {
             font-size: 2.5rem;
             margin-bottom: 20px;
@@ -730,7 +416,7 @@
             -webkit-text-fill-color: transparent;
             font-family: 'Orbitron', sans-serif;
         }
-        
+
         .modal-content {
             font-size: 1.2rem;
             line-height: 1.8;
@@ -738,14 +424,14 @@
             margin-bottom: 30px;
             font-family: 'Rajdhani', sans-serif;
         }
-        
+
         .modal-features {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 20px;
             margin-bottom: 30px;
         }
-        
+
         .feature-item {
             background: rgba(255, 255, 255, 0.05);
             padding: 20px;
@@ -755,12 +441,12 @@
             gap: 15px;
             transition: all 0.3s ease;
         }
-        
+
         .feature-item:hover {
             background: rgba(225, 86, 168, 0.1);
             transform: translateY(-3px);
         }
-        
+
         .feature-icon {
             width: 40px;
             height: 40px;
@@ -771,140 +457,446 @@
             justify-content: center;
             flex-shrink: 0;
         }
-        
+
         .feature-text h4 {
             font-size: 1.3rem;
             margin-bottom: 8px;
             font-family: 'Orbitron', sans-serif;
         }
-        
+
         .feature-text p {
             font-size: 1rem;
             color: #a0a0d0;
             font-family: 'Rajdhani', sans-serif;
         }
-        
-        .modal-cta {
-            text-align: center;
-            margin-top: 30px;
+
+        /* ===== PROJECTS SECTION ===== */
+        #projects {
+            padding: 150px 8vw;
+            background: radial-gradient(ellipse at bottom, rgba(26, 20, 91, 0.1) 0%, transparent 70%);
+            position: relative;
         }
-        
-        .modal-cta-btn {
-            background: linear-gradient(to right, #e156a8, #1a2fa4);
-            border: none;
-            border-radius: 30px;
-            color: white;
-            padding: 15px 40px;
-            font-size: 1.2rem;
+
+        .section-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 100px;
             font-family: 'Orbitron', sans-serif;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 15px rgba(26, 47, 164, 0.5);
-            text-transform: uppercase;
+            text-align: center;
+            background: linear-gradient(to right, #e156a8, #1a2fa4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(225, 86, 168, 0.3);
+            position: relative;
+            z-index: 2;
+        }
+
+        .projects-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .project-card {
+            position: relative;
+            height: 400px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 30px 50px rgba(225, 86, 168, 0.3);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a145b, #0a0a0f);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .project-image::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(10, 10, 15, 0.9), transparent);
+            opacity: 0.8;
+        }
+
+        .project-image i {
+            font-size: 5rem;
+            color: #e156a8;
+            z-index: 1;
+        }
+
+        .project-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 30px;
+            z-index: 2;
+        }
+
+        .project-overlay h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+        }
+
+        .project-overlay p {
+            font-size: 1.1rem;
+            color: #b8b8d8;
+            font-family: 'Rajdhani', sans-serif;
+            line-height: 1.6;
+        }
+
+        /* ===== ABOUT US SECTION ===== */
+        #about {
+            padding: 150px 8vw;
+            background: radial-gradient(ellipse at center, rgba(26, 20, 91, 0.1) 0%, transparent 70%);
+            position: relative;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .about-item {
+            background: rgba(20, 20, 30, 0.6);
+            border-radius: 20px;
+            padding: 40px;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(225, 86, 168, 0.1);
+            backdrop-filter: blur(10px);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            background: rgba(30, 25, 60, 0.7);
+            border-color: rgba(225, 86, 168, 0.3);
+        }
+
+        .about-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(to right, #e156a8, #1a2fa4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            font-size: 2rem;
+        }
+
+        .about-item h3 {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
             letter-spacing: 1px;
         }
-        
-        .modal-cta-btn:hover {
+
+        .about-item p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #b8b8d8;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        /* ===== CONTACT SECTION ===== */
+        #contact {
+            padding: 150px 8vw;
+            background: radial-gradient(ellipse at top, rgba(26, 20, 91, 0.1) 0%, transparent 70%);
+            position: relative;
+        }
+
+        .contact-container {
+            display: flex;
+            gap: 60px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .contact-info {
+            flex: 1;
+        }
+
+        .contact-info p {
+            margin-bottom: 40px;
+            font-size: 1.2rem;
+            font-weight: 400;
+            font-family: 'Rajdhani', sans-serif;
+            line-height: 1.8;
+        }
+
+        .contact-details {
+            list-style: none;
+        }
+
+        .contact-details li {
+            margin-bottom: 25px;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .contact-details li i {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(to right, #e156a8, #1a2fa4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .contact-details li div h4 {
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+        }
+
+        .contact-details li div p,
+        .contact-details li div a {
+            font-size: 1.1rem;
+            color: #b8b8d8;
+            text-decoration: none;
+            font-family: 'Rajdhani', sans-serif;
+            transition: color 0.3s ease;
+        }
+
+        .contact-details li div a:hover {
+            color: #e156a8;
+        }
+
+        .map-container {
+            flex: 1;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(225, 86, 168, 0.2);
+            height: 500px;
+        }
+
+        .map-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a145b, #0a0a0f);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .map-placeholder i {
+            font-size: 5rem;
+            color: #e156a8;
+            margin-bottom: 30px;
+        }
+
+        .map-placeholder p {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            text-align: center;
+            max-width: 300px;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: rgba(5, 5, 10, 0.95);
+            padding: 80px 8vw 40px;
+            text-align: center;
+            font-family: 'Rajdhani', sans-serif;
+            position: relative;
+            border-top: 1px solid rgba(225, 86, 168, 0.1);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .footer-logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            font-family: 'Orbitron', sans-serif;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #e156a8, #1a2fa4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 2px;
+        }
+
+        .footer-slogan {
+            font-size: 1.8rem;
+            color: #b8b8d8;
+            margin-bottom: 40px;
+            font-weight: 400;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .social-links a {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-size: 1.8rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .social-links a:hover {
+            background: linear-gradient(to right, #e156a8, #1a2fa4);
             transform: translateY(-5px);
-            box-shadow: 0 0 25px rgba(225, 86, 168, 0.7);
+            text-decoration: none;
         }
-        
-        /* ===== ANIMATIONS ===== */
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+
+        .copyright {
+            color: #777;
+            font-size: 1rem;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+
+        /* ===== ACCESSIBILITY TOOLBAR ===== */
+        .accessibility-toolbar {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 30px;
+            padding: 10px 15px;
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
         }
-        
-        /* ===== RESPONSIVE DESIGN ===== */
-        @media (max-width: 1200px) {
-            .projects-container,
-            .about-content {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .contact-container {
-                flex-direction: column;
-            }
+
+        .accessibility-toolbar.visible {
+            transform: translateY(0);
+            opacity: 1;
         }
-        
-        @media (max-width: 900px) {
+
+        .accessibility-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .accessibility-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .accessibility-btn.active {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Mobile styles */
+        @media (max-width: 768px) {
             .nav {
                 padding: 20px 30px;
             }
-            
+
+            .nav.scrolled {
+                padding: 15px 30px;
+            }
+
             .nav-links {
                 gap: 20px;
             }
-            
+
             .hero h1 {
-                font-size: 3.5rem;
-            }
-            
-            .hero h2 {
-                font-size: 1.5rem;
-            }
-            
-            .section-title {
-                font-size: 2.5rem;
-            }
-            
-            .spiral-title {
                 font-size: 3rem;
             }
-            
-            .spiral-subtitle {
-                font-size: 1.4rem;
-            }
-            
-            .projects-container,
-            .about-content {
-                grid-template-columns: 1fr;
-                max-width: 600px;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-            
-            .hero h1 {
-                font-size: 2.8rem;
-            }
-            
+
             .hero h2 {
                 font-size: 1.3rem;
             }
-            
-            .section-title {
-                font-size: 2.2rem;
-                margin-bottom: 60px;
-            }
-            
+
             .spiral-title {
                 font-size: 2.5rem;
-                top: 10%;
             }
-            
+
             .spiral-subtitle {
-                font-size: 1.2rem;
-                top: 20%;
-            }
-            
-            .explore-btn {
-                padding: 15px 40px;
                 font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 7vw;
+            }
+
+            .contact-container {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .contact-info {
+                padding-right: 0;
+                margin-bottom: 0;
+            }
+
+            .projects-container {
+                grid-template-columns: 1fr;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-features {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -918,16 +910,28 @@
             2020 PRODUCTIONS
         </a>
         <ul class="nav-links">
-            <li><a href="#home"><i class="fas fa-home"></i> Home</a></li>
-            <li><a href="#services"><i class="fas fa-layer-group"></i> Services</a></li>
-            <li><a href="#projects"><i class="fas fa-project-diagram"></i> Projects</a></li>
-            <li><a href="#about"><i class="fas fa-users"></i> About</a></li>
-            <li><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li>
+            <li><a href="#home" class="hover-target"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="#experience" class="hover-target"><i class="fas fa-spinner"></i> Services</a></li>
+            <li><a href="#projects" class="hover-target"><i class="fas fa-project-diagram"></i> Projects</a></li>
+            <li><a href="#about" class="hover-target"><i class="fas fa-users"></i> About</a></li>
+            <li><a href="#contact" class="hover-target"><i class="fas fa-envelope"></i> Contact</a></li>
         </ul>
     </nav>
 
     <!-- Progress bar -->
-    <div class="progress-bar" id="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+    <div class="progress-bar" id="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0"
+        aria-valuemax="100"></div>
+
+    <!-- Scroll indicator -->
+    <div class="scroll-indicator">
+        <div class="scroll-dots">
+            <div class="scroll-dot active hover-target" data-section="home"></div>
+            <div class="scroll-dot hover-target" data-section="experience"></div>
+            <div class="scroll-dot hover-target" data-section="projects"></div>
+            <div class="scroll-dot hover-target" data-section="about"></div>
+            <div class="scroll-dot hover-target" data-section="contact"></div>
+        </div>
+    </div>
 
     <!-- Home Section -->
     <section id="home" class="hero">
@@ -941,15 +945,9 @@
         <button class="explore-btn" id="explore-btn">Explore Our Services</button>
     </section>
 
-    <!-- Services Section with Enhanced 3D Spiral -->
-    <section id="services">
-        <div class="spiral-container">
-            <canvas id="spiral-canvas"></canvas>
-            <div class="spiral-overlay"></div>
-            <h2 class="spiral-title">OUR SERVICES</h2>
-            <p class="spiral-subtitle">Navigate through our offerings with this interactive spiral experience</p>
-            <button class="controls-toggle">Free Orbit</button>
-        </div>
+    <!-- Experience Section with 3D Glass Spiral -->
+    <section id="experience" class="glass-spiral-container">
+        <div class="overlay"></div>
     </section>
 
     <!-- Projects Section -->
@@ -957,32 +955,29 @@
         <h2 class="section-title">FEATURED PROJECTS</h2>
         <div class="projects-container">
             <div class="project-card">
-                <div class="project-image">
-                    <i class="fas fa-vote-yea"></i>
-                </div>
-                <div class="project-overlay">
-                    <h3>TDP Election Campaign</h3>
-                    <p>Influencer marketing, creative content, and digital strategies</p>
-                </div>
-            </div>
-            
-            <div class="project-card">
-                <div class="project-image">
-                    <i class="fas fa-flag"></i>
-                </div>
-                <div class="project-overlay">
-                    <h3>BJP Praja Sangrama Yatra</h3>
-                    <p>Full event coverage, live-streaming, and content creation</p>
+                <div class="project-image" style="--delay: 1; background-image: url('TDP.png')">
+                    <div class="project-overlay">
+                        <h3>TDP Election Campaign</h3>
+                        <p>Influencer marketing, creative content, and digital strategies</p>
+                    </div>
                 </div>
             </div>
-            
+
             <div class="project-card">
-                <div class="project-image">
-                    <i class="fas fa-monument"></i>
+                <div class="project-image" style="--delay: 2; background-image: url('bjp-logo.png')">
+                    <div class="project-overlay">
+                        <h3>BJP Praja Sangrama Yatra</h3>
+                        <p>Full event coverage, live-streaming, and content creation</p>
+                    </div>
                 </div>
-                <div class="project-overlay">
-                    <h3>Hyderabad Liberation Day</h3>
-                    <p>Event management, live broadcasts, and digital promotions</p>
+            </div>
+
+            <div class="project-card">
+                <div class="project-image" style="--delay: 2; background-image: url('hyderabad.jpg')">
+                    <div class="project-overlay">
+                        <h3>Hyderabad Liberation Day</h3>
+                        <p>Event management, live broadcasts, and digital promotions</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -998,27 +993,34 @@
                 </div>
                 <h3>Our Vision</h3>
                 <p>
-                    At 2020 Productions, we envision a world where brands and leaders don't just compete—they dominate. Through innovative storytelling, data-driven strategies, and relentless creativity, we transform visions into victories. Our mission is simple: to craft campaigns that win markets, elections, and hearts.
+                    At 2020 Productions, we envision a world where brands and leaders don't just compete—they dominate.
+                    Through innovative storytelling, data-driven strategies, and relentless creativity, we transform
+                    visions into victories. Our mission is simple: to craft campaigns that win markets, elections, and
+                    hearts.
                 </p>
             </div>
-            
+
             <div class="about-item">
                 <div class="about-icon">
                     <i class="fas fa-route"></i>
                 </div>
                 <h3>Our Approach</h3>
                 <p>
-                    Victory demands more than ideas—it requires execution. We blend cutting-edge technology with human insight to create campaigns that resonate and endure. From pixel-perfect animations to grassroots mobilization, we tailor every strategy for maximum impact.
+                    Victory demands more than ideas—it requires execution. We blend cutting-edge technology with human
+                    insight to create campaigns that resonate and endure. From pixel-perfect animations to grassroots
+                    mobilization, we tailor every strategy for maximum impact.
                 </p>
             </div>
-            
+
             <div class="about-item">
                 <div class="about-icon">
                     <i class="fas fa-users"></i>
                 </div>
                 <h3>Our Team</h3>
                 <p>
-                    Behind every 2020 Productions triumph is a squad of rebels, thinkers, and doers. Political strategists, animation wizards, digital mavericks—we're united by one obsession: winning. Our diverse team brings decades of experience to every project.
+                    Behind every 2020 Productions triumph is a squad of rebels, thinkers, and doers. Political
+                    strategists, animation wizards, digital mavericks—we're united by one obsession: winning. Our
+                    diverse team brings decades of experience to every project.
                 </p>
             </div>
         </div>
@@ -1030,7 +1032,8 @@
         <div class="contact-container">
             <div class="contact-info">
                 <p>
-                    Ready to transform your vision into victory? Partner with 2020 Productions, where every strategy leads to success. Reach out to us today to start your journey to domination.
+                    Ready to transform your vision into victory? Partner with 2020 Productions, where every strategy
+                    leads to success. Reach out to us today to start your journey to domination.
                 </p>
                 <ul class="contact-details">
                     <li>
@@ -1051,7 +1054,8 @@
                         <i class="fas fa-map-marker-alt"></i>
                         <div>
                             <h4>Location</h4>
-                            <p>Plot No.656, 1st Floor, Rd Number 36, Survey Of India Ayyappa Society, Madhapur, Telangana 500081</p>
+                            <p>Plot No.656, 1st Floor, Rd Number 36, Survey Of India Ayyappa Society, Madhapur,
+                                Telangana 500081</p>
                         </div>
                     </li>
                 </ul>
@@ -1069,7 +1073,7 @@
     <footer>
         <div class="footer-content">
             <div class="footer-logo">2020 PRODUCTIONS</div>
-            <div class="footer-slogan">Turning Visions into Victories</div>
+            <div class="footer-slogan">Your Vision. Our Mission. Victory Delivered</div>
             <div class="social-links">
                 <a href="#"><i class="fab fa-facebook-f"></i></a>
                 <a href="#"><i class="fab fa-instagram"></i></a>
@@ -1078,7 +1082,8 @@
                 <a href="#"><i class="fab fa-youtube"></i></a>
             </div>
             <div class="copyright">
-                © 2023 2020 Productions. All rights reserved. | Crafted with <i class="fas fa-heart" style="color: #e156a8;"></i> in Hyderabad
+                © 2025 2020 Productions. All rights reserved. | Crafted with <i class="fas fa-heart"
+                    style="color: #e156a8;"></i> in Hyderabad
             </div>
         </div>
     </footer>
@@ -1096,80 +1101,50 @@
         <div class="modal-features" id="modal-features">
             <!-- Features will be added here -->
         </div>
-        <div class="modal-cta">
-            <button class="modal-cta-btn">Get Started</button>
-        </div>
     </div>
 
-    <script>
-        // ===== SERVICES DATA =====
-        const services = [
-            {
-                title: "2D & 3D Animation",
-                items: [
-                    "Reels, Shorts & Memes",
-                    "Documentaries & Explainers",
-                    "Cinematic Shoots & Editing"
-                ],
-                icon: "film"
-            },
-            {
-                title: "Logo Design & Identity",
-                items: [
-                    "Brand Strategy & Messaging",
-                    "Campaign Visual Kits",
-                    "Celebrity & Leader Branding"
-                ],
-                icon: "paint-brush"
-            },
-            {
-                title: "Digital Marketing",
-                items: [
-                    "SEO, SEM & Google Ads",
-                    "Social Media Management",
-                    "Influencer Marketing",
-                    "WhatsApp & Mobile Marketing"
-                ],
-                icon: "bullhorn"
-            },
-            {
-                title: "Event Management",
-                items: [
-                    "Political Campaign Planning",
-                    "Event Shoots & Rally Coverage",
-                    "Live Streaming & Broadcast",
-                    "Crowd Management"
-                ],
-                icon: "calendar-alt"
-            },
-            {
-                title: "Web Development",
-                items: [
-                    "Responsive Website Design",
-                    "E-commerce Solutions",
-                    "Custom Web Applications",
-                    "Mobile-Optimized Experiences"
-                ],
-                icon: "laptop-code"
-            },
-            {
-                title: "Video Production",
-                items: [
-                    "Corporate Video Production",
-                    "Commercials & Advertisements",
-                    "Drone Videography",
-                    "Post-Production & Editing"
-                ],
-                icon: "video"
-            }
-        ];
+    <!-- Accessibility Toolbar -->
+    <div class="accessibility-toolbar" id="accessibility-toolbar">
+        <button class="accessibility-btn hover-target" id="toggle-cursor-btn" aria-label="Toggle custom cursor"
+            title="Toggle custom cursor">
+            <i class="fas fa-mouse-pointer"></i>
+        </button>
+        <button class="accessibility-btn hover-target" id="toggle-contrast-btn" aria-label="Toggle high contrast"
+            title="Toggle high contrast">
+            <i class="fas fa-adjust"></i>
+        </button>
+        <button class="accessibility-btn hover-target" id="toggle-motion-btn" aria-label="Toggle reduced motion"
+            title="Toggle reduced motion">
+            <i class="fas fa-running"></i>
+        </button>
+        <button class="accessibility-btn hover-target" id="toggle-font-size-btn" aria-label="Increase font size"
+            title="Increase font size">
+            <i class="fas fa-text-height"></i>
+        </button>
+    </div>
 
-        // ===== 3D SERVICES SPIRAL IMPLEMENTATION =====
-        let scene, camera, renderer;
-        let rectangles = [];
-        let scrollPosition = 0;
-        let targetScrollPosition = 0;
-        let isScrolling = false;
+    <!-- Cursor elements -->
+    <div id="cursor"></div>
+    <div id="cursor-dot"></div>
+
+    <script async src="https://unpkg.com/es-module-shims@1.8.0/dist/es-module-shims.js"></script>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.154.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.154.0/examples/jsm/"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+
+        // ===== FIXED VARIABLES =====
+        let centerModel = null;
+        let scrollVelocity = 0;
         let scrollTimeout = null;
         let hoverHighlightedPanel = null;
         let isTouch = false;
@@ -1178,267 +1153,537 @@
         let lastHighlightPosition = -1;
         let lastFrameTime = 0;
         let deltaTime = 0;
-        let controlsEnabled = false;
-        
-        function initSpiral() {
-            // Set up scene
-            scene = new THREE.Scene();
-            scene.background = new THREE.Color(0x0A0A0F);
-            
-            // Set up camera
-            camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
-            
-            // Set up renderer
-            renderer = new THREE.WebGLRenderer({ 
-                canvas: document.getElementById('spiral-canvas'),
-                antialias: true,
-                alpha: true
-            });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(window.devicePixelRatio);
-            
-            // Create spiral curve
-            const radius = 5;
-            const numRectangles = services.length;
-            const turns = 1.5;
-            const objPerTurn = numRectangles / turns;
-            const totalPoints = 500;
-            const heightStep = 1.5;
-            
-            const points = [];
-            for (let i = 0; i <= totalPoints; i++) {
-                let t = i / totalPoints;
-                let angle = t * turns * Math.PI * 2;
-                let x = Math.cos(angle) * radius;
-                let y = t * turns * heightStep * objPerTurn;
-                let z = Math.sin(angle) * radius;
-                points.push(new THREE.Vector3(x, y, z));
+        let highlightTweens = new Map();
+        let hoverDebounceTimeout = null;
+        let activeMainPanel = null;
+        let isMouseOverSpiral = false;
+        let isModalOpen = false;
+        let lastScrollPosition = 0;
+
+        // Service data
+        const services = [
+            {
+                title: "Content Creation",
+                items: [
+                    "2D & 3D Animation",
+                    "Reels, Shorts & Memes",
+                    "Documentaries & Explainers",
+                    "Cinematic Shoots & Editing"
+                ]
+            },
+            {
+                title: "Branding",
+                items: [
+                    "Logo Design & Identity",
+                    "Brand Strategy & Messaging",
+                    "Campaign Visual Kits",
+                    "Celebrity & Leader Branding"
+                ]
+            },
+            {
+                title: "Digital Marketing",
+                items: [
+                    "SEO, SEM & Google Ads",
+                    "Social Media Management",
+                    "Influencer Marketing Campaigns",
+                    "WhatsApp & Mobile Marketing"
+                ]
+            },
+            {
+                title: "Political Strategy",
+                items: [
+                    "Political Campaign Management",
+                    "Election Strategy & Planning",
+                    "Event Management & Coverage"
+                ]
             }
-            
-            const curve = new THREE.CatmullRomCurve3(points);
-            curve.closed = false;
-            
-            // Glass material
-            const glassMaterial = new THREE.MeshPhysicalMaterial({
-                color: 0xffffff,
-                metalness: 0,
-                roughness: 0.1,
-                transmission: 0.85,
-                thickness: 0.1,
-                transparent: true,
-                opacity: 0.8,
-                ior: 1.45,
-                reflectivity: 0.4,
-                clearcoat: 0.3,
-                clearcoatRoughness: 0.1,
-                side: THREE.DoubleSide
-            });
-            
-            // Create main panels
-            for (let i = 0; i < numRectangles; i++) {
-                let t = i / numRectangles;
-                let position = curve.getPoint(t);
-                
-                let geom = new THREE.BoxGeometry(5, 3, 0.2);
-                let material = glassMaterial.clone();
-                material.color.setHSL(t, 0.5, 0.7);
-                
-                let glassPanel = new THREE.Mesh(geom, material);
-                glassPanel.position.copy(position);
-                glassPanel.userData = {
-                    service: services[i],
-                    index: i
-                };
-                
-                // Create text plane
-                const canvas = document.createElement('canvas');
-                canvas.width = 512;
-                canvas.height = 256;
-                const ctx = canvas.getContext('2d');
-                
-                // Background
-                ctx.fillStyle = 'rgba(10, 10, 15, 0.7)';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                
-                // Title text
-                ctx.font = 'bold 36px Orbitron';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillStyle = '#ffffff';
-                ctx.fillText(services[i].title, canvas.width/2, canvas.height/2);
-                
-                // Icon
-                ctx.font = 'normal 48px "Font Awesome 5 Free"';
-                ctx.fillText(String.fromCharCode(0xf03d), canvas.width/2, canvas.height/2 + 40);
-                
-                const texture = new THREE.CanvasTexture(canvas);
-                const textGeom = new THREE.PlaneGeometry(4.5, 2.5);
-                const textMaterial = new THREE.MeshBasicMaterial({
-                    map: texture,
-                    transparent: true,
-                    side: THREE.DoubleSide
-                });
-                
-                let textPlane = new THREE.Mesh(textGeom, textMaterial);
-                textPlane.position.z = 0.1;
-                glassPanel.add(textPlane);
-                
-                let outward = new THREE.Vector3(position.x, 0, position.z).normalize();
-                let lookAtTarget = new THREE.Vector3().copy(position).add(outward);
-                glassPanel.lookAt(lookAtTarget);
-                
-                scene.add(glassPanel);
-                rectangles.push(glassPanel);
-            }
-            
-            // Initialize camera position
-            startAtFirstPanel();
-            
-            // Add lights
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-            scene.add(ambientLight);
-            
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-            directionalLight.position.set(5, 10, 7);
-            scene.add(directionalLight);
-            
-            const pointLight1 = new THREE.PointLight(0x1a2fa4, 1.5, 30);
-            pointLight1.position.set(10, 10, 10);
-            scene.add(pointLight1);
-            
-            const pointLight2 = new THREE.PointLight(0xe156a8, 1.5, 30);
-            pointLight2.position.set(-10, 10, -10);
-            scene.add(pointLight2);
-            
-            // Start animation
-            animate();
-            
-            // Handle window resize
-            window.addEventListener('resize', onWindowResize);
+        ];
+
+        // DOM Elements
+        const serviceModal = document.getElementById('service-modal');
+        const modalOverlay = document.getElementById('modal-overlay');
+        const closeModal = document.getElementById('close-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalContent = document.getElementById('modal-content');
+        const modalFeatures = document.getElementById('modal-features');
+        const exploreBtn = document.querySelector('.explore-btn');
+        const spiralContainer = document.querySelector('.glass-spiral-container');
+
+        // Scene setup
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x0A0A0F);
+
+        // Camera
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
+
+        // Renderer
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.outputColorSpace = THREE.SRGBColorSpace;
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.0;
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        document.querySelector('.glass-spiral-container').appendChild(renderer.domElement);
+
+        // Lights
+        const ambient = new THREE.HemisphereLight(0xffffff, 0x0A0A0F, 0.15);
+        scene.add(ambient);
+
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.4);
+        directionalLight.position.set(20, 30, 20);
+        directionalLight.castShadow = true;
+        directionalLight.shadow.mapSize.width = 1024;
+        directionalLight.shadow.mapSize.height = 1024;
+        scene.add(directionalLight);
+
+        // Extended Palette lights with new colors added
+        const paletteLights = [
+            // Original lights
+            new THREE.PointLight(0x1A2FA4, 3, 25), // Royal Blue
+            new THREE.PointLight(0xE156A8, 3, 25), // Vibrant Pink
+            new THREE.PointLight(0x513A9B, 3, 25), // Violet Indigo
+            new THREE.PointLight(0x6B6EB8, 2.5, 20), // Periwinkle Blue
+            new THREE.PointLight(0xB4177A, 2.5, 20), // Deep Magenta
+
+            // New unique colors added
+            new THREE.PointLight(0x0A0A0F, 2, 15), // Jet Black
+            new THREE.PointLight(0x1A145B, 2.5, 20), // Deep Navy Blue
+            new THREE.PointLight(0xE397B8, 2.5, 20), // Light Rose Pink
+            new THREE.PointLight(0x70003C, 2, 18), // Burgundy Wine
+            new THREE.PointLight(0x5A1C6D, 2, 18)  // Plum Purple
+        ];
+
+        // Position all lights
+        paletteLights[0].position.set(15, 10, 10);    // Royal Blue
+        paletteLights[1].position.set(-10, 15, -15);  // Vibrant Pink
+        paletteLights[2].position.set(-15, 8, 12);    // Violet Indigo
+        paletteLights[3].position.set(8, 20, -8);     // Periwinkle Blue
+        paletteLights[4].position.set(-12, 5, 15);    // Deep Magenta
+
+        // Position new lights
+        paletteLights[5].position.set(0, -10, 20);    // Jet Black
+        paletteLights[6].position.set(20, 12, -5);    // Deep Navy Blue
+        paletteLights[7].position.set(-18, -8, 10);   // Light Rose Pink
+        paletteLights[8].position.set(5, 25, 8);      // Burgundy Wine
+        paletteLights[9].position.set(-8, 18, -20);   // Plum Purple
+
+        // Apply shadow casting and add to scene
+        paletteLights.forEach(light => {
+            light.castShadow = true;
+            scene.add(light);
+        });
+
+        const spiralSpotlight = new THREE.SpotLight(0x1A2FA4, 60);
+        spiralSpotlight.angle = Math.PI / 3;
+        spiralSpotlight.penumbra = 0.4;
+        spiralSpotlight.decay = 1.5;
+        spiralSpotlight.distance = 35;
+        spiralSpotlight.castShadow = true;
+        spiralSpotlight.shadow.mapSize.width = 1024;
+        spiralSpotlight.shadow.mapSize.height = 1024;
+        scene.add(spiralSpotlight);
+
+        const accentLight = new THREE.PointLight(0xE156A8, 2, 25);
+        accentLight.position.set(0, 15, 0);
+        scene.add(accentLight);
+
+        // Environment map
+        const cubeTextureLoader = new THREE.CubeTextureLoader();
+        const envMap = cubeTextureLoader.load([
+            'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/cube/Park2/posx.jpg',
+            'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/cube/Park2/negx.jpg',
+            'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/cube/Park2/posy.jpg',
+            'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/cube/Park2/negy.jpg',
+            'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/cube/Park2/posz.jpg',
+            'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/cube/Park2/negz.jpg'
+        ]);
+        scene.environment = envMap;
+
+        const glassMaterial = new THREE.MeshPhysicalMaterial({
+            color: 0xffffff,
+            metalness: 0.1,
+            roughness: 0.85,
+            transmission: 0.45,
+            attenuationColor: 0x000000,
+            attenuationDistance: 0.15,
+            thickness: 0.4,
+            transparent: true,
+            opacity: 0.92,
+            ior: 1.52, // Slightly higher IOR for more reflection
+            reflectivity: 0.15, // Reduced reflectivity
+            clearcoat: 0, // Disabled clearcoat for rough surface
+            envMap: envMap,
+            envMapIntensity: 0.25, // Reduced environment reflections
+            side: THREE.DoubleSide,
+            sheen: 0.05, // Minimal sheen for subtle highlights
+            sheenTint: 0x111111, // Darkened sheen tint
+            specularIntensity: 0.1, // Reduced specular highlights
+            specularColor: 0x050505 // Dark specular color
+        });
+
+        // Create spiral curve
+        const radius = 4;
+        const numRectangles = 4;
+        const turns = 1;
+        const objPerTurn = numRectangles / turns;
+        const totalPoints = 500;
+        const heightStep = 1.5;
+
+        const points = [];
+        for (let i = 0; i <= totalPoints; i++) {
+            let t = i / totalPoints;
+            let angle = t * turns * Math.PI * 2;
+            let x = Math.cos(angle) * radius;
+            let y = t * turns * heightStep * objPerTurn;
+            let z = Math.sin(angle) * radius;
+            points.push(new THREE.Vector3(x, y, z));
         }
-        
+
+        const curve = new THREE.CatmullRomCurve3(points);
+        curve.closed = false;
+
+        // Panel content
+        const panelTexts = services.map(service => service.title);
+
+        // Create glass panels
+        const rectangles = [];
+        const rectSpacing = 1 / numRectangles;
+
+        // Function to create text texture
+        function createTextTexture(text) {
+            const canvas = document.createElement('canvas');
+            canvas.width = 512;
+            canvas.height = 256;
+            const context = canvas.getContext('2d');
+
+            // Clear background with semi-transparent dark background
+            context.fillStyle = 'rgba(10, 10, 15, 0.7)';
+            context.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Calculate optimal font size based on text length
+            const maxLength = 30;
+            const baseSize = 48;
+            const fontSize = Math.max(30, baseSize - (Math.min(text.length, maxLength) - 15) * 0.8);
+
+            // Add strong white text with heavy shadow
+            context.shadowColor = 'rgba(0, 0, 0, 0.9)';
+            context.shadowBlur = 6;
+            context.shadowOffsetX = 2;
+            context.shadowOffsetY = 2;
+            // Primary text - bright white
+            context.font = `bold ${fontSize}px 'Orbitron', sans-serif`;
+            context.textAlign = 'center';
+            context.textBaseline = 'middle';
+            context.fillStyle = 'white';
+
+            // Handle text wrapping for longer phrases
+            let line1 = '';
+            let line2 = '';
+
+            if (text.length > 18) {
+                const words = text.split(' ');
+                let currentLength = 0;
+
+                for (let word of words) {
+                    if (currentLength + word.length < text.length / 2) {
+                        line1 += (line1 ? ' ' : '') + word;
+                        currentLength += word.length + 1;
+                    } else {
+                        line2 += (line2 ? ' ' : '') + word;
+                    }
+                }
+                context.fillText(line1, canvas.width / 2, canvas.height / 2 - fontSize / 2);
+                context.fillText(line2, canvas.width / 2, canvas.height / 2 + fontSize / 2);
+            } else {
+                line1 = text;
+                context.fillText(text, canvas.width / 2, canvas.height / 2);
+            }
+
+            // Add bright glow effect
+            context.shadowColor = 'rgba(255, 255, 255, 0.8)';
+            context.shadowBlur = 4;
+            context.shadowOffsetX = 0;
+            context.shadowOffsetY = 0;
+            context.globalCompositeOperation = 'lighter';
+            context.globalAlpha = 0.3;
+            context.fillStyle = 'rgba(225, 86, 168, 0.8)';
+
+            if (text.length > 18) {
+                context.fillText(line1, canvas.width / 2, canvas.height / 2 - fontSize / 2);
+                context.fillText(line2, canvas.width / 2, canvas.height / 2 + fontSize / 2);
+            } else {
+                context.fillText(line1, canvas.width / 2, canvas.height / 2);
+            }
+
+            context.globalCompositeOperation = 'source-over';
+            context.globalAlpha = 1.0;
+
+            const texture = new THREE.CanvasTexture(canvas);
+            texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+            texture.minFilter = THREE.LinearFilter;
+            texture.magFilter = THREE.LinearFilter;
+            texture.needsUpdate = true;
+
+            return texture;
+        }
+
+        // Create main panels
+        for (let i = 0; i < numRectangles; i++) {
+            let t = i * rectSpacing;
+            let position = curve.getPoint(t);
+
+            let geom = new RoundedBoxGeometry(6, 4, 0.4, 1, 10, 1);
+            let material = glassMaterial.clone();
+
+            let glassPanel = new THREE.Mesh(geom, material);
+            glassPanel.position.copy(position);
+            glassPanel.castShadow = true;
+            glassPanel.receiveShadow = true;
+            glassPanel.userData.panelIndex = i;
+            glassPanel.userData.service = services[i];
+
+            // Create text plane
+            const textGeom = new THREE.PlaneGeometry(5.5, 3.5);
+            const textMaterial = new THREE.MeshBasicMaterial({
+                transparent: true,
+                opacity: 0.95,
+                map: createTextTexture(panelTexts[i]),
+                side: THREE.DoubleSide,
+                depthWrite: false
+            });
+
+            let textPlane = new THREE.Mesh(textGeom, textMaterial);
+            textPlane.position.z = 0.2;
+            textPlane.userData = { text: panelTexts[i] };
+            glassPanel.add(textPlane);
+
+            let outward = new THREE.Vector3(position.x, 0, position.z).normalize();
+            let lookAtTarget = new THREE.Vector3().copy(position).add(outward);
+            glassPanel.lookAt(lookAtTarget);
+
+            scene.add(glassPanel);
+            rectangles.push({
+                position: t,
+                mesh: glassPanel,
+                text: panelTexts[i],
+                service: services[i]
+            });
+        }
+
+        // Animation and interaction
+        let scrollPosition = 0;
+        let targetScrollPosition = 0;
+        const scrollSpeed = 0.0008;
+        const scrollDamping = 0.05;
+        let isScrolling = false;
+
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
+
+        // Initialize camera position
         function startAtFirstPanel() {
-            const topPanelIndex = services.length - 1;
-            const topPanelPosition = topPanelIndex / services.length;
-            
+            const topPanelIndex = numRectangles - 1;
+            const topPanelPosition = topPanelIndex / numRectangles;
+
             scrollPosition = topPanelPosition;
             targetScrollPosition = topPanelPosition;
-            
-            let curvePos = new THREE.Vector3(0, 10, 15);
-            let lookAheadPos = new THREE.Vector3(0, 5, 0);
-            
-            camera.position.set(curvePos.x, curvePos.y, curvePos.z);
+
+            let curvePos = curve.getPoint(topPanelPosition);
+            let lookAheadPos = curve.getPoint(Math.min(1, topPanelPosition + 0.05));
+
+            camera.position.set(
+                curvePos.x * 1.5,
+                curvePos.y + 5,
+                curvePos.z * 1.5 + 10
+            );
+
             camera.lookAt(lookAheadPos);
         }
-        
-        function onWindowResize() {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        }
-        
+
+        // Update camera position
         function updateCameraPosition() {
-            let curvePos = new THREE.Vector3(
-                0,
-                10 - scrollPosition * 15,
-                15
+            let curvePos = curve.getPoint(scrollPosition);
+            let lookAheadPos = curve.getPoint(Math.min(1, scrollPosition + 0.003));
+
+            let center = new THREE.Vector3(0, curvePos.y, 0);
+            let dirToCenter = new THREE.Vector3().subVectors(center, curvePos).normalize();
+
+            let cameraPos = new THREE.Vector3().copy(curvePos).add(
+                dirToCenter.clone().multiplyScalar(-5)
             );
-            
-            camera.position.lerp(curvePos, 0.1);
-            camera.lookAt(0, 5, 0);
+
+            camera.position.copy(cameraPos);
+            camera.lookAt(lookAheadPos);
         }
-        
-        function animate() {
+
+        // Update lights with all palette lights animated
+        function updateLights(time) {
+            time = time / 3000;
+            const fastTime = time * 2;
+            const spiralRadius = radius * 0.8;
+
+            let currentCurvePos = curve.getPoint(scrollPosition);
+
+            // Spiral spotlight animation (unchanged)
+            spiralSpotlight.position.set(
+                currentCurvePos.x + Math.cos(time) * spiralRadius * 0.6,
+                currentCurvePos.y + 10,
+                currentCurvePos.z + Math.sin(time) * spiralRadius * 0.6
+            );
+            spiralSpotlight.target.position.copy(currentCurvePos);
+
+            // Animate all palette lights with different frequencies and phases
+            paletteLights[0].intensity = 2.5 + Math.sin(fastTime * 1.2) * 1.5; // Royal Blue
+            paletteLights[1].intensity = 2.5 + Math.sin(fastTime * 1.4 + Math.PI * 0.5) * 1.5; // Vibrant Pink
+            paletteLights[2].intensity = 2.0 + Math.sin(fastTime * 0.8 + Math.PI) * 1.2; // Violet Indigo
+            paletteLights[3].intensity = 2.2 + Math.sin(fastTime * 1.6 + Math.PI * 0.3) * 1.0; // Periwinkle Blue
+            paletteLights[4].intensity = 2.3 + Math.sin(fastTime * 1.1 + Math.PI * 0.7) * 1.3; // Deep Magenta
+
+            // New lights with subtle animations
+            paletteLights[5].intensity = 1.5 + Math.sin(fastTime * 0.9 + Math.PI * 1.2) * 0.8; // Jet Black
+            paletteLights[6].intensity = 2.0 + Math.sin(fastTime * 1.3 + Math.PI * 0.8) * 1.1; // Deep Navy Blue
+            paletteLights[7].intensity = 2.4 + Math.sin(fastTime * 1.5 + Math.PI * 0.2) * 1.2; // Light Rose Pink
+            paletteLights[8].intensity = 1.8 + Math.sin(fastTime * 0.7 + Math.PI * 1.5) * 1.0; // Burgundy Wine
+            paletteLights[9].intensity = 1.9 + Math.sin(fastTime * 1.0 + Math.PI * 1.8) * 0.9; // Plum Purple
+        }
+
+        // Animation loop
+        function animate(currentTime) {
             requestAnimationFrame(animate);
-            
+
+            updateCameraPosition();
+            updateLights(currentTime);
+
             // Smooth scrolling
-            scrollPosition += (targetScrollPosition - scrollPosition) * 0.05;
-            
+            scrollPosition += (targetScrollPosition - scrollPosition) * scrollDamping;
+
             // Auto-snap to nearest panel when not scrolling
             if (!isScrolling) {
-                const nearestRectPos = Math.round(scrollPosition * services.length) / services.length;
+                const nearestRectPos = Math.round(scrollPosition * numRectangles) / numRectangles;
                 const distToNearest = Math.abs(scrollPosition - nearestRectPos);
-                
+
                 if (distToNearest < 0.01) {
                     scrollPosition = scrollPosition * 0.9 + nearestRectPos * 0.1;
                 }
             }
-            
-            updateCameraPosition();
-            
-            // Rotate panels
-            rectangles.forEach((rect, index) => {
-                const t = index / services.length;
-                const position = new THREE.Vector3(
-                    Math.sin(t * Math.PI * 2 + scrollPosition * Math.PI * 2) * 5,
-                    5 - scrollPosition * 10 + index * 0.5,
-                    Math.cos(t * Math.PI * 2 + scrollPosition * Math.PI * 2) * 5
-                );
-                
-                rect.position.lerp(position, 0.1);
-                rect.lookAt(camera.position);
-                
-                // Add subtle rotation
-                rect.rotation.y += 0.005;
-            });
-            
+
+            // Only update highlights when necessary
+            if (Math.abs(lastHighlightPosition - scrollPosition) > 0.001) {
+                highlightNearestRectangle();
+                lastHighlightPosition = scrollPosition;
+            }
+
             renderer.render(scene, camera);
         }
-        
-        // Event listeners for scrolling
-        window.addEventListener('wheel', function(e) {
-            e.preventDefault();
-            
-            isScrolling = true;
-            let scrollDelta = e.deltaY;
-            
-            if (e.deltaMode === 1) scrollDelta *= 33;
-            else if (e.deltaMode === 2) scrollDelta *= 100;
-            
-            targetScrollPosition += scrollDelta * 0.0005;
-            targetScrollPosition = Math.max(0, Math.min(0.999, targetScrollPosition));
-            
-            if (scrollTimeout) clearTimeout(scrollTimeout);
-            scrollTimeout = setTimeout(() => {
-                isScrolling = false;
-            }, 150);
+
+        // Event listeners
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Mouse enter/leave for spiral container
+        spiralContainer.addEventListener('mouseenter', () => {
+            isMouseOverSpiral = true;
+        });
+
+        spiralContainer.addEventListener('mouseleave', () => {
+            isMouseOverSpiral = false;
+        });
+
+        // Updated wheel event with spiral detection
+        document.addEventListener('wheel', function (e) {
+            if (isMouseOverSpiral && !isModalOpen) {
+                e.preventDefault();
+
+                isScrolling = true;
+                let scrollDelta = e.deltaY;
+
+                if (e.deltaMode === 1) scrollDelta *= 33;
+                else if (e.deltaMode === 2) scrollDelta *= 100;
+
+                scrollVelocity = -scrollDelta * scrollSpeed;
+                targetScrollPosition += scrollVelocity;
+                targetScrollPosition = Math.max(0, Math.min(0.999, targetScrollPosition));
+
+                if (scrollTimeout) clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(() => {
+                    isScrolling = false;
+                }, 150);
+            }
         }, { passive: false });
-        
-        // Raycaster for interaction
-        const raycaster = new THREE.Raycaster();
-        const mouse = new THREE.Vector2();
-        
-        function onMouseMove(event) {
-            // Calculate mouse position in normalized device coordinates
-            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-            mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
-        }
-        
-        function onClick(event) {
-            // Update the picking ray with the camera and mouse position
-            raycaster.setFromCamera(mouse, camera);
-            
-            // Calculate objects intersecting the picking ray
-            const intersects = raycaster.intersectObjects(rectangles);
-            
-            if (intersects.length > 0) {
-                const service = intersects[0].object.userData.service;
-                openServiceModal(service);
+
+        // Panel interaction functions
+        function refreshPanelText(panel) {
+            const children = panel.mesh.children;
+            if (children && children.length > 0) {
+                const textPlane = children[0];
+                const text = textPlane.userData.text;
+                const newTexture = createTextTexture(text);
+                textPlane.material.map = newTexture;
+                textPlane.material.needsUpdate = true;
             }
         }
-        
+
+        function highlightNearestRectangle() {
+            // Don't update highlights while scrolling to prevent glitching
+            if (isScrolling) return;
+
+            let minDist = 1;
+            let nearest = null;
+
+            rectangles.forEach(rect => {
+                let dist = Math.abs(rect.position - scrollPosition);
+
+                // Only update non-hovered panels and ensure smooth transitions
+                if (rect !== hoverHighlightedPanel) {
+                    const targetOpacity = Math.max(0.3, 0.8 - dist * 8); // Increased minimum opacity
+                    const targetEmissive = dist < 0.1 ? 0x222222 : 0x000000;
+                    const targetIntensity = dist < 0.1 ? 0.3 : 0;
+
+                    // Smooth interpolation instead of direct assignment
+                    rect.mesh.material.opacity += (targetOpacity - rect.mesh.material.opacity) * 0.1;
+                    rect.mesh.material.emissiveIntensity += (targetIntensity - rect.mesh.material.emissiveIntensity) * 0.1;
+
+                    if (Math.abs(targetIntensity - rect.mesh.material.emissiveIntensity) < 0.01) {
+                        rect.mesh.material.emissive.set(targetEmissive);
+                    }
+
+                    // Smooth scale transitions
+                    const targetScale = dist < 0.05 ? 1.05 : 1.0;
+                    const currentScale = rect.mesh.scale.x;
+                    const newScale = currentScale + (targetScale - currentScale) * 0.1;
+                    rect.mesh.scale.set(newScale, newScale, newScale);
+                }
+                if (dist < minDist) {
+                    minDist = dist;
+                    nearest = rect;
+                }
+            });
+
+            // Only highlight the nearest panel with smooth transitions
+            if (nearest && nearest !== hoverHighlightedPanel && !isScrolling) {
+                nearest.mesh.material.opacity = Math.min(1.0, nearest.mesh.material.opacity + 0.1);
+                nearest.mesh.material.emissive.set(0x444444);
+                nearest.mesh.material.emissiveIntensity = Math.min(0.6, nearest.mesh.material.emissiveIntensity + 0.1);
+                refreshPanelText(nearest);
+            }
+        }
+
         // Service modal functions
         function openServiceModal(service) {
-            document.getElementById('modal-title').textContent = service.title;
-            document.getElementById('modal-content').innerHTML = `
+            isModalOpen = true;
+            modalTitle.textContent = service.title;
+            modalContent.innerHTML = `
                 <p>${service.title} services at 2020 Productions are designed to elevate your brand and capture your audience's attention. Our team of experts crafts visually stunning and strategically sound solutions that deliver results.</p>
                 <p>We combine creativity with technical expertise to create memorable experiences that resonate with your target audience and drive engagement.</p>
             `;
-            
+
             // Clear previous features
-            const modalFeatures = document.getElementById('modal-features');
             modalFeatures.innerHTML = '';
-            
+
             // Add features
             service.items.forEach(item => {
                 const featureItem = document.createElement('div');
@@ -1454,97 +1699,261 @@
                 `;
                 modalFeatures.appendChild(featureItem);
             });
-            
+
             // Show modal
-            document.getElementById('modal-overlay').classList.add('active');
-            document.getElementById('service-modal').classList.add('active');
+            modalOverlay.classList.add('active');
+            serviceModal.classList.add('active');
             document.body.style.overflow = 'hidden';
         }
-        
+
         function closeServiceModal() {
-            document.getElementById('modal-overlay').classList.remove('active');
-            document.getElementById('service-modal').classList.remove('active');
+            isModalOpen = false;
+            modalOverlay.classList.remove('active');
+            serviceModal.classList.remove('active');
             document.body.style.overflow = '';
         }
-        
-        // Toggle controls
-        function toggleControls() {
-            controlsEnabled = !controlsEnabled;
-            document.querySelector('.controls-toggle').textContent = controlsEnabled ? 'Resume Scroll' : 'Free Orbit';
-        }
-        
-        // Initialize spiral when page loads
-        window.addEventListener('load', () => {
-            initSpiral();
-            
-            // Add event listeners
-            window.addEventListener('mousemove', onMouseMove, false);
-            window.addEventListener('click', onClick, false);
-            document.getElementById('close-modal').addEventListener('click', closeServiceModal);
-            document.getElementById('modal-overlay').addEventListener('click', closeServiceModal);
-            document.getElementById('explore-btn').addEventListener('click', () => {
-                document.getElementById('services').scrollIntoView({ behavior: 'smooth' });
-            });
-            document.querySelector('.controls-toggle').addEventListener('click', toggleControls);
-        });
-        
+
+        // Initial setup
+        startAtFirstPanel();
+        animate(performance.now());
+
         // ===== WEBSITE FUNCTIONALITY =====
-        // Progress bar functionality
-        window.addEventListener('scroll', () => {
-            const progressBar = document.getElementById('progress-bar');
-            const scrollPercentage = 
-                (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
-            progressBar.style.width = `${scrollPercentage}%`;
-            
-            // Navbar effect
-            const nav = document.querySelector('.nav');
-            if (window.scrollY > 100) {
-                nav.classList.add('scrolled');
-            } else {
-                nav.classList.remove('scrolled');
-            }
-        });
-        
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
+        const cursor = document.getElementById("cursor");
+        const cursorDot = document.getElementById("cursor-dot");
+
+        if (cursor && cursorDot) {
+            document.addEventListener("mousemove", (e) => {
+                cursor.style.left = e.clientX + "px";
+                cursor.style.top = e.clientY + "px";
+
+                cursorDot.style.left = e.clientX + "px";
+                cursorDot.style.top = e.clientY + "px";
+            });
+
+            const hoverTargets = document.querySelectorAll(".hover-target");
+            hoverTargets.forEach((target) => {
+                target.addEventListener("mouseenter", () => {
+                    cursor.classList.add("hover");
+                });
+
+                target.addEventListener("mouseleave", () => {
+                    cursor.classList.remove("hover");
+                });
+            });
+        }
+
+        const sections = document.querySelectorAll("section");
+        const scrollDots = document.querySelectorAll(".scroll-dot");
+        const progressBar = document.querySelector(".progress-bar");
+        const nav = document.querySelector(".nav");
+
+        if (progressBar || nav) {
+            window.addEventListener("scroll", () => {
+                if (progressBar) {
+                    const scrollPercentage =
+                        (window.scrollY /
+                            (document.body.scrollHeight - window.innerHeight)) *
+                        100;
+                    progressBar.style.width = scrollPercentage + "%";
+                }
+
+                if (nav) {
+                    if (window.scrollY > 100) {
+                        nav.classList.add("scrolled");
+                    } else {
+                        nav.classList.remove("scrolled");
+                    }
+                }
+
+                sections.forEach((section) => {
+                    const sectionTop = section.offsetTop - window.innerHeight / 2;
+                    const sectionBottom = sectionTop + section.offsetHeight;
+
+                    if (
+                        window.scrollY >= sectionTop &&
+                        window.scrollY < sectionBottom
+                    ) {
+                        section.classList.add("visible");
+
+                        const sectionId = section.getAttribute("id");
+                        scrollDots.forEach((dot) => {
+                            if (dot.dataset.section === sectionId) {
+                                dot.classList.add("active");
+                            } else {
+                                dot.classList.remove("active");
+                            }
+                        });
+                    }
+                });
+            });
+        }
+
+        // Scroll dot functionality
+        document.querySelectorAll('.scroll-dot').forEach((dot) => {
+            dot.addEventListener('click', (e) => {
                 e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                
-                if (targetElement) {
+
+                const sectionId = dot.dataset.section;
+                const targetSection = document.getElementById(sectionId);
+
+                if (targetSection) {
+                    // Remove active class from all dots
+                    document.querySelectorAll('.scroll-dot').forEach(d => d.classList.remove('active'));
+
+                    // Add active class to clicked dot
+                    dot.classList.add('active');
+
+                    // Smooth scroll to target section
                     window.scrollTo({
-                        top: targetElement.offsetTop - 80,
+                        top: targetSection.offsetTop - 80,
                         behavior: 'smooth'
                     });
                 }
             });
         });
-        
-        // Project card animations
-        const projectCards = document.querySelectorAll('.project-card');
-        projectCards.forEach(card => {
-            card.addEventListener('mouseenter', () => {
-                card.style.transform = 'translateY(-10px) scale(1.02)';
-            });
-            
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'translateY(0) scale(1)';
-            });
-        });
-        
-        // About item animations
-        const aboutItems = document.querySelectorAll('.about-item');
-        aboutItems.forEach(item => {
-            item.addEventListener('mouseenter', () => {
-                item.style.transform = 'translateY(-10px)';
-            });
-            
-            item.addEventListener('mouseleave', () => {
-                item.style.transform = 'translateY(0)';
+
+        document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+            anchor.addEventListener("click", function (e) {
+                e.preventDefault();
+
+                const targetId = this.getAttribute("href").substring(1);
+                const targetElement = document.getElementById(targetId);
+
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop,
+                        behavior: "smooth",
+                    });
+                }
             });
         });
+
+        // Explore button scroll to experience section
+        if (exploreBtn) {
+            exploreBtn.addEventListener('click', function () {
+                document.getElementById('experience').scrollIntoView({ behavior: 'smooth' });
+            });
+        }
+
+        // Service panel click handler
+        renderer.domElement.addEventListener('click', (event) => {
+            // Calculate mouse position in normalized device coordinates
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+
+            // Update the picking ray with the camera and mouse position
+            raycaster.setFromCamera(mouse, camera);
+
+            // Calculate objects intersecting the picking ray
+            const intersects = raycaster.intersectObjects(rectangles.map(r => r.mesh));
+
+            if (intersects.length > 0) {
+                const service = intersects[0].object.userData.service;
+                openServiceModal(service);
+            }
+        });
+
+        // Modal close handlers
+        closeModal.addEventListener('click', closeServiceModal);
+        modalOverlay.addEventListener('click', closeServiceModal);
+
+        // Accessibility functionality
+        const accessibilitySettings = {
+            cursorDisabled: false,
+            highContrast: false,
+            reducedMotion: false,
+            fontSizeLevel: 0,
+        };
+
+        function updateFontSize() {
+            const baseSize = 16;
+            const sizes = [baseSize, baseSize * 1.25, baseSize * 1.5];
+            document.documentElement.style.fontSize = `${sizes[accessibilitySettings.fontSizeLevel]
+                }px`;
+        }
+
+        function handleMotionReduction() {
+            if (accessibilitySettings.reducedMotion) {
+                document.body.classList.add("reduced-motion");
+            }
+        }
+
+        function handleCursor() {
+            if (accessibilitySettings.cursorDisabled) {
+                document.body.classList.add("accessibility-cursor-disabled");
+                document.querySelectorAll("[data-magnetic]").forEach((el) => {
+                    el.style.transform = "none";
+                });
+            }
+        }
+
+        function initAccessibility() {
+            updateFontSize();
+            handleMotionReduction();
+            handleCursor();
+            accessibilitySettings.highContrast =
+                document.body.classList.contains("high-contrast");
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            document
+                .getElementById("toggle-font-size-btn")
+                .addEventListener("click", () => {
+                    accessibilitySettings.fontSizeLevel =
+                        (accessibilitySettings.fontSizeLevel + 1) % 3;
+                    updateFontSize();
+                });
+
+            document
+                .getElementById("toggle-motion-btn")
+                .addEventListener("click", () => {
+                    accessibilitySettings.reducedMotion =
+                        !accessibilitySettings.reducedMotion;
+                    document.body.classList.toggle(
+                        "reduced-motion",
+                        accessibilitySettings.reducedMotion
+                    );
+                });
+
+            document
+                .getElementById("toggle-cursor-btn")
+                .addEventListener("click", () => {
+                    accessibilitySettings.cursorDisabled =
+                        !accessibilitySettings.cursorDisabled;
+                    document.body.classList.toggle(
+                        "accessibility-cursor-disabled",
+                        accessibilitySettings.cursorDisabled
+                    );
+
+                    const cursorElements = document.querySelectorAll(
+                        "#cursor, #cursor-dot"
+                    );
+                    cursorElements.forEach(
+                        (el) =>
+                        (el.style.display = accessibilitySettings.cursorDisabled
+                            ? "none"
+                            : "block")
+                    );
+                });
+
+            document
+                .getElementById("toggle-contrast-btn")
+                .addEventListener("click", () => {
+                    accessibilitySettings.highContrast =
+                        !accessibilitySettings.highContrast;
+                    document.body.classList.toggle(
+                        "high-contrast",
+                        accessibilitySettings.highContrast
+                    );
+                });
+            initAccessibility();
+        });
+
+        // Show accessibility toolbar
+        setTimeout(() => {
+            document.getElementById("accessibility-toolbar").classList.add("visible");
+        }, 3000);
     </script>
 </body>
+
 </html>
