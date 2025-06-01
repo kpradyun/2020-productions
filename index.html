@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2020 Productions - Enhanced Experience</title>
+    <title>2020 Productions</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&family=Orbitron:wght@400;500;700&family=Rajdhani:wght@300;400;600&display=swap"
@@ -39,8 +40,7 @@
             pointer-events: none;
             z-index: 9999;
             transform: translate(-50%, -50%);
-            transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease,
-                background-color 0.3s ease;
+            transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease, background-color 0.3s ease;
         }
 
         #cursor.hover {
@@ -492,36 +492,39 @@
             z-index: 2;
         }
 
-        .projects-container {
+        .project-card {
+            height: 18rem;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow:
+                0 10px 30px rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+            border: 1px solid rgba(225, 86, 168, 0.2);
+        }
+
+        .project-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 40px;
+            width: 100%;
             max-width: 1400px;
             margin: 0 auto;
-        }
-
-        .project-card {
-            position: relative;
-            height: 400px;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            transition: all 0.4s ease;
-        }
-
-        .project-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 30px 50px rgba(225, 86, 168, 0.3);
+            padding: 0 20px;
         }
 
         .project-image {
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #1a145b, #0a0a0f);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
         }
 
         .project-image::before {
@@ -531,37 +534,184 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(to top, rgba(10, 10, 15, 0.9), transparent);
+            background: linear-gradient(to top, rgba(10, 10, 15, 0.6), transparent 60%);
             opacity: 0.8;
+            z-index: 2;
         }
 
-        .project-image i {
-            font-size: 5rem;
-            color: #e156a8;
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg,
+                    rgba(225, 86, 168, 0.1) 0%,
+                    transparent 50%,
+                    rgba(26, 47, 164, 0.1) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
             z-index: 1;
+        }
+
+        .project-card:hover::before {
+            opacity: 1;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow:
+                0 25px 60px rgba(225, 86, 168, 0.3),
+                0 0 80px rgba(26, 47, 164, 0.2),
+                0 0 0 1px rgba(225, 86, 168, 0.4) inset;
+            border-color: rgba(225, 86, 168, 0.5);
         }
 
         .project-overlay {
             position: absolute;
-            bottom: 0;
+            top: 0;
             left: 0;
             width: 100%;
+            height: 100%;
+            background: linear-gradient(to top,
+                    rgba(0, 0, 0, 0.85) 0%,
+                    rgba(0, 0, 0, 0.3) 60%,
+                    rgba(0, 0, 0, 0) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
             padding: 30px;
-            z-index: 2;
+            opacity: 0;
+            transition: all 0.4s ease;
+            z-index: 3;
+        }
+
+        .project-card:hover .project-overlay {
+            opacity: 1;
+            background: linear-gradient(to top,
+                    rgba(0, 0, 0, 0.7) 0%,
+                    rgba(26, 20, 91, 0.4) 50%,
+                    rgba(0, 0, 0, 0.2) 100%);
+            backdrop-filter: blur(5px);
         }
 
         .project-overlay h3 {
             font-size: 1.8rem;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             font-family: 'Orbitron', sans-serif;
-            color: #ffffff;
+            font-weight: 700;
+            color: #ffffff !important;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8) !important;
+            transition: all 0.3s ease;
+            transform: translateY(20px);
+        }
+
+        .project-card:hover .project-overlay h3 {
+            transform: translateY(0);
+            color: #e156a8 !important;
+            text-shadow: 0 0 20px rgba(225, 86, 168, 0.6) !important;
         }
 
         .project-overlay p {
-            font-size: 1.1rem;
-            color: #b8b8d8;
+            font-size: 1rem !important;
+            font-weight: 400 !important;
+            color: rgba(255, 255, 255, 0.9) !important;
             font-family: 'Rajdhani', sans-serif;
             line-height: 1.6;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8) !important;
+            margin: 0 !important;
+            transition: all 0.3s ease;
+            transform: translateY(20px);
+        }
+
+        .project-card:hover .project-overlay p {
+            transform: translateY(0);
+            color: rgba(255, 255, 255, 0.95) !important;
+        }
+
+        /* Hover target animation delays */
+        .hover-target[style*="--delay: 1"] {
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .hover-target[style*="--delay: 2"] {
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        .hover-target[style*="--delay: 3"] {
+            animation: fadeInUp 0.8s ease-out 0.6s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .project-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            #projects {
+                padding: 100px 5vw;
+            }
+
+            .section-title {
+                margin-bottom: 60px;
+            }
+
+            .project-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+                padding: 0 10px;
+            }
+
+            .project-card {
+                height: 16rem;
+            }
+
+            .project-overlay {
+                padding: 25px;
+            }
+
+            .project-overlay h3 {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #projects {
+                padding: 80px 4vw;
+            }
+
+            .project-card {
+                height: 14rem;
+            }
+
+            .project-overlay {
+                padding: 20px;
+            }
+
+            .project-overlay h3 {
+                font-size: 1.3rem;
+                margin-bottom: 8px;
+            }
+
+            .project-overlay p {
+                font-size: 0.9rem !important;
+            }
         }
 
         /* ===== ABOUT US SECTION ===== */
@@ -734,6 +884,7 @@
             font-family: 'Rajdhani', sans-serif;
             position: relative;
             border-top: 1px solid rgba(225, 86, 168, 0.1);
+            min-height: 30rem;
         }
 
         .footer-content {
@@ -843,13 +994,166 @@
             background-color: rgba(255, 255, 255, 0.3);
         }
 
+        .reduced-motion * {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important;
+        }
+
+        .high-contrast {
+            background-color: #000 !important;
+            color: #fff !important;
+        }
+
+        .high-contrast * {
+            background-color: inherit !important;
+            color: inherit !important;
+        }
+
+        .high-contrast input,
+        .high-contrast button,
+        .high-contrast textarea,
+        .high-contrast select {
+            border: 2px solid #fff !important;
+            background-color: #222 !important;
+        }
+
+        .high-contrast a {
+            text-decoration: underline !important;
+        }
+
+        .high-contrast .hover-target:hover {
+            opacity: 0.8 !important;
+            transform: none !important;
+        }
+
+        body.accessibility-cursor-disabled {
+            cursor: auto !important;
+        }
+
+        body.accessibility-cursor-disabled * {
+            cursor: auto !important;
+        }
+
+        body:not(.accessibility-cursor-disabled) {
+            cursor: none;
+        }
+
+        #cursor,
+        #cursor-dot {
+            display: none;
+            pointer-events: none;
+        }
+
+        body:not(.accessibility-cursor-disabled) #cursor,
+        body:not(.accessibility-cursor-disabled) #cursor-dot {
+            display: block;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            body:not(.accessibility-motion-enabled) * {
+                transition-duration: 0.001ms !important;
+                animation-duration: 0.001ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+            }
+
+            section {
+                transition: none;
+                opacity: 1;
+                transform: none;
+            }
+
+            body:not(.force-animations) * {
+                animation-duration: 0.001ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.001ms !important;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .accessibility-toolbar {
+                flex-direction: column;
+                padding: 10px;
+                gap: 10px;
+                bottom: 15px;
+                left: 15px;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .about-item {
+                padding: 30px 20px;
+            }
+
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .project-card {
+                height: auto;
+                aspect-ratio: 1 / 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-container {
+                flex-direction: column;
+            }
+
+            .contact-info {
+                padding-right: 0;
+                margin-bottom: 50px;
+            }
+
+            .hero h1 {
+                font-size: 10vw;
+            }
+
+            .hero h2 {
+                font-size: 4vw;
+            }
+
+            h2.section-title {
+                font-size: 7vw;
+            }
+
+            .nav {
+                padding: 20px 30px;
+            }
+
+            .nav.scrolled {
+                padding: 15px 30px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .scroll-indicator {
+                display: none;
+            }
+        }
+
         /* Enhanced Particle System Divider */
         .divider-particles {
+            background: radial-gradient(ellipse at center, rgba(26, 20, 91, 0.2) 0%, rgba(10, 10, 15, 0) 70%);
             height: 20px;
-            background: radial-gradient(circle at center, #0e1520, #000);
             position: relative;
             overflow: hidden;
-            transform: rotate(-3deg);
             margin: 30px 0;
             will-change: transform;
             z-index: 1;
@@ -866,9 +1170,20 @@
         }
 
         /* Particle size variations */
-        .particle.small { width: 3px; height: 3px; }
-        .particle.medium { width: 4px; height: 4px; }
-        .particle.large { width: 5px; height: 5px; }
+        .particle.small {
+            width: 3px;
+            height: 3px;
+        }
+
+        .particle.medium {
+            width: 4px;
+            height: 4px;
+        }
+
+        .particle.large {
+            width: 5px;
+            height: 5px;
+        }
 
         /* Animations */
         @keyframes slideUp {
@@ -883,12 +1198,15 @@
                 transform: translateY(100%) scale(0.8);
                 opacity: 0;
             }
+
             10% {
                 opacity: 0.8;
             }
+
             90% {
                 opacity: 0.8;
             }
+
             100% {
                 transform: translateY(-100%) scale(1.2);
                 opacity: 0;
@@ -951,10 +1269,173 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            opacity: 1;
+            transition: opacity 0.8s ease-in-out;
+        }
+
+        .loading-screen.hide {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader {
+            width: 48px;
+            height: 48px;
+            border: 3px solid #fff;
+            border-radius: 50%;
+            display: inline-block;
+            position: relative;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
+        }
+
+        .loader::after {
+            content: "";
+            box-sizing: border-box;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            border: 3px solid;
+            border-color: #00ffff transparent;
+        }
+
+        @keyframes rotation {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loading-status {
+            color: #fff;
+            margin-top: 20px;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        .webgl-error {
+            background: linear-gradient(45deg, #1a1a1a, #2a2a2a);
+        }
+
+        .webgl-error .canvas-container {
+            display: none;
+        }
+
+        /* Toast Notifications */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .toast.visible {
+            display: flex;
+        }
+
+        .toast::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .toast.info::before {
+            background: #00ffff;
+        }
+
+        .toast.success::before {
+            background: #00ff88;
+        }
+
+        .toast.error::before {
+            background: #ff0066;
+        }
+
+        #model-section {
+            height: 100vh;
+            position: relative;
+            background: radial-gradient(ellipse at center, rgba(26, 20, 91, 0.2) 0%, rgba(10, 10, 15, 0) 70%);
+            overflow: hidden;
+        }
+
+        .loading-indicator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #aaa;
+            font-size: 1.5rem;
+            text-align: center;
+            z-index: 10;
+            background: rgba(10, 8, 31, 0.8);
+            padding: 20px 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        .loading-indicator::after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            border-top: 4px solid #e52e71;
+            border-radius: 50%;
+            margin: 20px auto 0;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
     </style>
 </head>
 
 <body>
+    <div class="loading-screen">
+        <div class="loader"></div>
+        <div id="loading-status" class="loading-status">Initializing...</div>
+    </div>
+
+    <div class="toast-container" id="toast-container"></div>
+
     <!-- Navigation -->
     <nav class="nav">
         <a href="#" class="logo">
@@ -985,67 +1466,115 @@
         </div>
     </div>
 
+    <!-- 3D Model-->
+    <section id="model-section">
+        <div class="logo-label">VIN MEDIA</div>
+        <div class="loading-indicator" id="loading">Loading 3D Experience</div>
+    </section>
+
+    <div class="divider-particles"></div>
+
     <!-- Home Section -->
-    <section id="home" class="hero">
-        <h1>TURNING VISIONS<br>INTO VICTORIES</h1>
-        <h2>
+    <section id="home" class="hero" data-aos="fade-up">
+        <h1 data-aos="fade-right" data-aos-delay="200">TURNING VISIONS<br>INTO VICTORIES</h1>
+        <h2 data-aos="fade-left" data-aos-delay="400">
             We brand, we shoot, we spark the flame,<br>
             Craft bold stories that build your name.<br>
             From reels to rallies, slick and smart—<br>
             We lead with vision, we leave our mark.
         </h2>
-        <button class="explore-btn" id="explore-btn">Explore Our Services</button>
+        <button class="explore-btn" id="explore-btn" data-aos="zoom-in" data-aos-delay="500">Explore Our
+            Services</button>
     </section>
 
-    <div class="divider-particles" id="divider1"></div>
+    <div class="divider-particles"></div>
 
     <!-- Experience Section with 3D Glass Spiral -->
-    <section id="experience" class="glass-spiral-container">
+    <section id="experience" class="glass-spiral-container" data-aos="fade-up">
         <div class="overlay"></div>
     </section>
 
-    <div class="divider-particles" id="divider1"></div>
+    <div class="divider-particles"></div>
 
     <!-- Projects Section -->
-    <section id="projects">
-        <h2 class="section-title">FEATURED PROJECTS</h2>
-        <div class="projects-container">
-            <div class="project-card">
-                <div class="project-image" style="--delay: 1; background-image: url('TDP.png')">
+    <section id="projects" data-aos="fade-up">
+        <div>
+            <h2 class="section-title" data-aos="fade-down">Featured Projects</h2>
+            <div class="project-grid">
+                <div class="project-card hover-target" style="--delay: 1;" data-aos="flip-left" data-aos-delay="100">
+                    <div class="project-image" style="background-image: url('TDP.png')"></div>
                     <div class="project-overlay">
-                        <h3>TDP Election Campaign</h3>
-                        <p>Influencer marketing, creative content, and digital strategies</p>
+                        <h3 style="
+                            color: #ffffff;
+                            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+                            margin: 0;
+                        ">
+                            TDP Election Campaign
+                        </h3>
+                        <p style="
+                            color: #ffffff;
+                            font-size: 0.9rem;
+                            font-weight: 400;
+                            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+                            margin: 0;
+                        ">
+                            Influencer marketing, creative content, and digital strategies
+                        </p>
                     </div>
                 </div>
-            </div>
-
-            <div class="project-card">
-                <div class="project-image" style="--delay: 2; background-image: url('bjp-logo.png')">
+                <div class="project-card hover-target" style="--delay: 2;" data-aos="flip-left" data-aos-delay="200">
+                    <div class="project-image" style="background-image: url('bjp-logo.png')"></div>
                     <div class="project-overlay">
-                        <h3>BJP Praja Sangrama Yatra</h3>
-                        <p>Full event coverage, live-streaming, and content creation</p>
+                        <h3 style="
+                            color: #ffffff;
+                            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+                            margin: 0;
+                        ">
+                            BJP Praja Sangrama Yatra
+                        </h3>
+                        <p style="
+                            color: #ffffff;
+                            font-size: 0.9rem;
+                            font-weight: 400;
+                            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+                            margin: 0;
+                        ">
+                            Full event coverage, live-streaming, and content creation
+                        </p>
                     </div>
                 </div>
-            </div>
-
-            <div class="project-card">
-                <div class="project-image" style="--delay: 2; background-image: url('hyderabad.jpg')">
+                <div class="project-card hover-target" style="--delay: 3;" data-aos="flip-left" data-aos-delay="300">
+                    <div class="project-image" style="background-image: url('hyderabad.jpg')"></div>
                     <div class="project-overlay">
-                        <h3>Hyderabad Liberation Day</h3>
-                        <p>Event management, live broadcasts, and digital promotions</p>
+                        <h3 style="
+                            color: #ffffff;
+                            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+                            margin: 0;
+                        ">
+                            Hyderabad Liberation Day
+                        </h3>
+                        <p style="
+                            color: #ffffff;
+                            font-size: 0.9rem;
+                            font-weight: 400;
+                            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+                            margin: 0;
+                        ">
+                            Event management, live broadcasts, and digital promotions
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <div class="divider-particles" id="divider1"></div>
+    <div class="divider-particles"></div>
 
     <!-- About Us Section -->
-    <section id="about">
-        <h2 class="section-title">ABOUT US</h2>
+    <section id="about" data-aos="fade-up">
+        <h2 class="section-title" data-aos="fade-down">ABOUT US</h2>
         <div class="about-content">
-            <div class="about-item">
+            <div class="about-item hover-target" style="--delay: 1;" data-aos="fade-right" data-aos-delay="100">
                 <div class="about-icon">
                     <i class="fas fa-eye"></i>
                 </div>
@@ -1058,7 +1587,7 @@
                 </p>
             </div>
 
-            <div class="about-item">
+            <div class="about-item hover-target" style="--delay: 2;" data-aos="fade-right" data-aos-delay="200">
                 <div class="about-icon">
                     <i class="fas fa-route"></i>
                 </div>
@@ -1070,7 +1599,7 @@
                 </p>
             </div>
 
-            <div class="about-item">
+            <div class="about-item hover-target" style="--delay: 3;" data-aos="fade-right" data-aos-delay="300">
                 <div class="about-icon">
                     <i class="fas fa-users"></i>
                 </div>
@@ -1084,12 +1613,12 @@
         </div>
     </section>
 
-    <div class="divider-particles" id="divider1"></div>
+    <div class="divider-particles"></div>
 
     <!-- Contact Section -->
-    <section id="contact">
-        <h2 class="section-title">CONTACT US</h2>
-        <div class="contact-container">
+    <section id="contact" data-aos="fade-up">
+        <h2 class="section-title" data-aos="fade-down">CONTACT US</h2>
+        <div class="contact-container" data-aos="fade-left" data-aos-delay="200">
             <div class="contact-info">
                 <p>
                     Ready to transform your vision into victory? Partner with 2020 Productions, where every strategy
@@ -1120,7 +1649,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="map-container">
+            <div class="map-container" data-aos="fade-left" data-aos-delay="400">
                 <div class="map-placeholder">
                     <i class="fas fa-map-marked-alt"></i>
                     <p>Our location in Hyderabad, India</p>
@@ -1129,21 +1658,22 @@
         </div>
     </section>
 
-    <div class="divider-particles" id="divider1"></div>
+    <div class="divider-particles"></div>
 
     <!-- Footer -->
     <footer>
-        <div class="footer-content">
-            <div class="footer-logo">2020 PRODUCTIONS</div>
-            <div class="footer-slogan">Your Vision. Our Mission. Victory Delivered</div>
-            <div class="social-links">
+        <div class="footer-content" data-aos="fade-up">
+            <div class="footer-logo" data-aos="fade-down" data-aos-delay="100">2020 PRODUCTIONS</div>
+            <div class="footer-slogan" data-aos="fade-down" data-aos-delay="200">Your Vision. Our Mission. Victory
+                Delivered</div>
+            <div class="social-links" data-aos="fade-down">
                 <a href="#"><i class="fab fa-facebook-f"></i></a>
                 <a href="#"><i class="fab fa-instagram"></i></a>
                 <a href="#"><i class="fab fa-twitter"></i></a>
                 <a href="#"><i class="fab fa-linkedin-in"></i></a>
                 <a href="#"><i class="fab fa-youtube"></i></a>
             </div>
-            <div class="copyright">
+            <div class="copyright" data-aos="zoom-in" data-aos-once="true" data-aos-delay="300">
                 © 2025 2020 Productions. All rights reserved. | Crafted with <i class="fas fa-heart"
                     style="color: #e156a8;"></i> in Hyderabad
             </div>
@@ -1203,6 +1733,19 @@
         import * as THREE from 'three';
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
         import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+        import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+        import { FontLoader } from 'three/addons/loaders/FontLoader.js';
+        import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
+
+        // Function to create a text texture
+        const textureCache = new Map();
+
+        function getTextTexture(text) {
+            if (!textureCache.has(text)) {
+                textureCache.set(text, createTextTexture(text));
+            }
+            return textureCache.get(text);
+        }
 
         // ===== FIXED VARIABLES =====
         let centerModel = null;
@@ -1321,7 +1864,7 @@
         scene.background = new THREE.Color(0x0A0A0F);
 
         // Camera
-        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
 
         // Renderer
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -1395,7 +1938,27 @@
         accentLight.position.set(0, 15, 0);
         scene.add(accentLight);
 
-        // Environment map
+        // Create texture loader
+        const textureLoader = new THREE.TextureLoader();
+
+        // Load textures
+        const roughnessTexture = textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/roughness_map.jpg');
+        const normalTexture = textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/waterdudv.jpg');
+
+        // Create a fallback texture
+        let transmissionTexture = null;
+        const canvas = document.createElement('canvas');
+        canvas.width = 256;
+        canvas.height = 256;
+        const context = canvas.getContext('2d');
+        const gradient = context.createLinearGradient(0, 0, 0, 256);
+        gradient.addColorStop(0, 'white');
+        gradient.addColorStop(1, 'rgba(255,255,255,0.5)');
+        context.fillStyle = gradient;
+        context.fillRect(0, 0, 256, 256);
+        transmissionTexture = new THREE.CanvasTexture(canvas);
+
+        // Create environment map for realistic reflections
         const cubeTextureLoader = new THREE.CubeTextureLoader();
         const envMap = cubeTextureLoader.load([
             'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/cube/Park2/posx.jpg',
@@ -1409,28 +1972,31 @@
 
         const glassMaterial = new THREE.MeshPhysicalMaterial({
             color: 0xffffff,
-            metalness: 0.1,
-            roughness: 0.85,
-            transmission: 0.45,
-            attenuationColor: 0x000000,
-            attenuationDistance: 0.15,
-            thickness: 0.4,
+            metalness: 0,
+            roughness: 0.05,
+            transmission: 0.99,
+            thickness: 0.1,
             transparent: true,
-            opacity: 0.92,
-            ior: 1.52, // Slightly higher IOR for more reflection
-            reflectivity: 0.15, // Reduced reflectivity
-            clearcoat: 0, // Disabled clearcoat for rough surface
+            opacity: 1.0,
+            ior: 1.45,
+            reflectivity: 0.6,
+            clearcoat: 0.5,
+            clearcoatRoughness: 0.05,
+            normalMap: normalTexture,
+            normalScale: new THREE.Vector2(0.2, 0.2),
+            roughnessMap: roughnessTexture,
+            transmissionMap: transmissionTexture,
             envMap: envMap,
-            envMapIntensity: 0.25, // Reduced environment reflections
-            side: THREE.DoubleSide,
-            sheen: 0.05, // Minimal sheen for subtle highlights
-            sheenTint: 0x111111, // Darkened sheen tint
-            specularIntensity: 0.1, // Reduced specular highlights
-            specularColor: 0x050505 // Dark specular color
+            envMapIntensity: 1.2,
+            side: THREE.DoubleSide
         });
 
+        glassMaterial.opacity = 0.65;
+        glassMaterial.emissive = new THREE.Color(0x000000);
+        glassMaterial.emissiveIntensity = 0;
+
         // Create spiral curve
-        const radius = 4;
+        const radius = 4.75;
         const numRectangles = 9; // Increased from 4 to 9
         const turns = 2; // Increased from 1 to 2
         const objPerTurn = numRectangles / turns;
@@ -1540,7 +2106,7 @@
             let t = i * rectSpacing;
             let position = curve.getPoint(t);
 
-            let geom = new RoundedBoxGeometry(6, 4, 0.4, 1, 10, 1);
+            let geom = new RoundedBoxGeometry(5, 3.5, 0.3, 1, 10, 1);
             let material = glassMaterial.clone();
 
             let glassPanel = new THREE.Mesh(geom, material);
@@ -1551,11 +2117,11 @@
             glassPanel.userData.service = services[i];
 
             // Create text plane
-            const textGeom = new THREE.PlaneGeometry(5.5, 3.5);
+            const textGeom = new THREE.PlaneGeometry(4.9, 3.4);
             const textMaterial = new THREE.MeshBasicMaterial({
                 transparent: true,
                 opacity: 0.95,
-                map: createTextTexture(panelTexts[i]),
+                map: getTextTexture(panelTexts[i]),
                 side: THREE.DoubleSide,
                 depthWrite: false
             });
@@ -1658,8 +2224,6 @@
         // Animation loop
         function animate(currentTime) {
             requestAnimationFrame(animate);
-
-            updateCameraPosition();
             updateLights(currentTime);
 
             // Smooth scrolling
@@ -1679,6 +2243,12 @@
             if (Math.abs(lastHighlightPosition - scrollPosition) > 0.001) {
                 highlightNearestRectangle();
                 lastHighlightPosition = scrollPosition;
+            }
+
+            // Update camera position if it has changed significantly
+            if (Math.abs(lastScrollPosition - scrollPosition) > 0.001) {
+                updateCameraPosition();
+                lastScrollPosition = scrollPosition;
             }
 
             renderer.render(scene, camera);
@@ -1702,7 +2272,16 @@
 
         // Updated wheel event with spiral detection
         document.addEventListener('wheel', function (e) {
-            if (isMouseOverSpiral && !isModalOpen) {
+            const spiralRect = spiralContainer.getBoundingClientRect();
+            const buffer = 100;
+
+            const nearTop = spiralRect.top >= 0 && spiralRect.top <= buffer;
+            const nearBottom = spiralRect.bottom <= window.innerHeight && spiralRect.bottom >= window.innerHeight - buffer;
+
+            const atTop = scrollPosition <= 0;
+            const atBottom = scrollPosition >= 0.999;
+
+            if ((isMouseOverSpiral || nearTop || nearBottom) && !isModalOpen) {
                 e.preventDefault();
 
                 isScrolling = true;
@@ -1711,9 +2290,18 @@
                 if (e.deltaMode === 1) scrollDelta *= 33;
                 else if (e.deltaMode === 2) scrollDelta *= 100;
 
+                const scrollingDown = scrollDelta > 0;
                 scrollVelocity = -scrollDelta * scrollSpeed;
                 targetScrollPosition += scrollVelocity;
                 targetScrollPosition = Math.max(0, Math.min(0.999, targetScrollPosition));
+
+                // Transition to next/previous section if at spiral ends
+                if ((scrollingDown && atBottom) || (!scrollingDown && atTop)) {
+                    const nextSection = document.querySelector(scrollingDown ? '.projects' : 'header'); // adjust selector
+                    if (nextSection) {
+                        nextSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
 
                 if (scrollTimeout) clearTimeout(scrollTimeout);
                 scrollTimeout = setTimeout(() => {
@@ -1733,6 +2321,46 @@
                 textPlane.material.needsUpdate = true;
             }
         }
+
+        const brightPink = new THREE.Color(0xff56a8); // bright pink
+        const defaultColor = new THREE.Color(0xffffff); // original white or whatever you use
+
+        document.addEventListener('mousemove', (event) => {
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObjects(rectangles.map(r => r.mesh), false);
+
+            if (intersects.length > 0) {
+                const hovered = intersects[0].object;
+
+                if (hoverHighlightedPanel !== hovered) {
+                    if (hoverHighlightedPanel) {
+                        // Reset previous panel's style
+                        hoverHighlightedPanel.material.opacity = 0.65;
+                        hoverHighlightedPanel.material.color.copy(defaultColor);
+                        hoverHighlightedPanel.scale.set(1, 1, 1);
+                    }
+
+                    hoverHighlightedPanel = hovered;
+                    hoverHighlightedPanel.material.opacity = 0.95;
+                    hoverHighlightedPanel.material.color.copy(brightPink);
+                    hoverHighlightedPanel.scale.set(1.07, 1.07, 1.07);
+
+                    cursor.classList.add('hover');
+                }
+            } else {
+                if (hoverHighlightedPanel) {
+                    hoverHighlightedPanel.material.opacity = 0.65;
+                    hoverHighlightedPanel.material.color.copy(defaultColor);
+                    hoverHighlightedPanel.scale.set(1, 1, 1);
+                    hoverHighlightedPanel = null;
+
+                    cursor.classList.remove('hover');
+                }
+            }
+        });
 
         function highlightNearestRectangle() {
             // Don't update highlights while scrolling to prevent glitching
@@ -1856,6 +2484,7 @@
 
         if (progressBar || nav) {
             window.addEventListener("scroll", () => {
+                if (isModalOpen) return;
                 if (progressBar) {
                     const scrollPercentage =
                         (window.scrollY /
@@ -1964,6 +2593,66 @@
         closeModal.addEventListener('click', closeServiceModal);
         modalOverlay.addEventListener('click', closeServiceModal);
 
+        const TOTAL_ASSETS = 10;
+        let loadedAssets = 0;
+        const loadingStatus = document.getElementById("loading-status");
+
+        function updateProgress() {
+            if (loadedAssets < TOTAL_ASSETS) {
+                loadedAssets++;
+                const progress = (loadedAssets / TOTAL_ASSETS) * 100;
+
+                switch (true) {
+                    case progress < 25:
+                        loadingStatus.textContent = "Loading core assets...";
+                        break;
+                    case progress < 50:
+                        loadingStatus.textContent = "Initializing 3D engine...";
+                        break;
+                    case progress < 75:
+                        loadingStatus.textContent = "Preparing interface...";
+                        break;
+                    default:
+                        loadingStatus.textContent = "Finalizing setup...";
+                }
+
+                setTimeout(updateProgress, 300 + Math.random() * 300);
+            } else {
+                loadingStatus.textContent = "Ready!";
+                setTimeout(hideLoadingScreen, 800);
+            }
+        }
+
+        setTimeout(updateProgress, 500);
+
+        function hideLoadingScreen() {
+            const loadingScreen = document.querySelector(".loading-screen");
+            if (loadingScreen) {
+                loadingScreen.classList.add("hide");
+
+                setTimeout(() => {
+                    loadingScreen.remove();
+                    const toolbar = document.getElementById("accessibility-toolbar");
+                    if (toolbar) toolbar.classList.add("visible");
+                    showToast("Welcome to VinMedia", "success");
+                }, 800);
+            }
+        }
+
+        function showToast(message, type = "info") {
+            const toast = document.createElement("div");
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `<div class="toast-message">${message}</div>`;
+
+            document.body.appendChild(toast);
+            setTimeout(() => toast.classList.add("visible"), 10);
+
+            setTimeout(() => {
+                toast.classList.remove("visible");
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
         // Accessibility functionality
         const accessibilitySettings = {
             cursorDisabled: false,
@@ -2002,91 +2691,115 @@
                 document.body.classList.contains("high-contrast");
         }
 
-        document.addEventListener("DOMContentLoaded", () => {
-            document
-                .getElementById("toggle-font-size-btn")
-                .addEventListener("click", () => {
-                    accessibilitySettings.fontSizeLevel =
-                        (accessibilitySettings.fontSizeLevel + 1) % 3;
-                    updateFontSize();
-                });
+        document
+            .getElementById("toggle-font-size-btn")
+            .addEventListener("click", () => {
+                accessibilitySettings.fontSizeLevel =
+                    (accessibilitySettings.fontSizeLevel + 1) % 3;
+                updateFontSize();
+                showToast(
+                    `Font size: ${["Normal", "Large", "X-Large"][
+                    accessibilitySettings.fontSizeLevel
+                    ]
+                    }`,
+                    "info"
+                );
+            });
 
-            document
-                .getElementById("toggle-motion-btn")
-                .addEventListener("click", () => {
-                    accessibilitySettings.reducedMotion =
-                        !accessibilitySettings.reducedMotion;
-                    document.body.classList.toggle(
-                        "reduced-motion",
-                        accessibilitySettings.reducedMotion
-                    );
-                });
+        document
+            .getElementById("toggle-motion-btn")
+            .addEventListener("click", () => {
+                accessibilitySettings.reducedMotion =
+                    !accessibilitySettings.reducedMotion;
+                document.body.classList.toggle(
+                    "reduced-motion",
+                    accessibilitySettings.reducedMotion
+                );
 
-            document
-                .getElementById("toggle-cursor-btn")
-                .addEventListener("click", () => {
-                    accessibilitySettings.cursorDisabled =
-                        !accessibilitySettings.cursorDisabled;
-                    document.body.classList.toggle(
-                        "accessibility-cursor-disabled",
-                        accessibilitySettings.cursorDisabled
-                    );
+                if (accessibilitySettings.reducedMotion) {
+                    cancelAnimationFrame(animationId);
+                    scene.traverse((child) => {
+                        if (child instanceof THREE.Object3D)
+                            child.rotation.set(0, 0, 0);
+                    });
+                } else {
+                    animate();
+                }
 
-                    const cursorElements = document.querySelectorAll(
-                        "#cursor, #cursor-dot"
-                    );
-                    cursorElements.forEach(
-                        (el) =>
-                        (el.style.display = accessibilitySettings.cursorDisabled
-                            ? "none"
-                            : "block")
-                    );
-                });
+                document.body.style.animation = "none";
+                document.body.offsetHeight;
+                document.body.style.animation = null;
+            });
 
-            document
-                .getElementById("toggle-contrast-btn")
-                .addEventListener("click", () => {
-                    accessibilitySettings.highContrast =
-                        !accessibilitySettings.highContrast;
-                    document.body.classList.toggle(
-                        "high-contrast",
-                        accessibilitySettings.highContrast
-                    );
-                });
-            initAccessibility();
-        });
+        document
+            .getElementById("toggle-cursor-btn")
+            .addEventListener("click", () => {
+                accessibilitySettings.cursorDisabled =
+                    !accessibilitySettings.cursorDisabled;
+                document.body.classList.toggle(
+                    "accessibility-cursor-disabled",
+                    accessibilitySettings.cursorDisabled
+                );
+
+                const cursorElements = document.querySelectorAll(
+                    "#cursor, #cursor-dot"
+                );
+                cursorElements.forEach(
+                    (el) =>
+                    (el.style.display = accessibilitySettings.cursorDisabled
+                        ? "none"
+                        : "block")
+                );
+            });
+
+        document
+            .getElementById("toggle-contrast-btn")
+            .addEventListener("click", () => {
+                accessibilitySettings.highContrast =
+                    !accessibilitySettings.highContrast;
+                document.body.classList.toggle(
+                    "high-contrast",
+                    accessibilitySettings.highContrast
+                );
+                showToast(
+                    `High contrast ${accessibilitySettings.highContrast ? "enabled" : "disabled"
+                    }`,
+                    "info"
+                );
+            });
+        initAccessibility();
 
         // Show accessibility toolbar
         setTimeout(() => {
             document.getElementById("accessibility-toolbar").classList.add("visible");
         }, 3000);
 
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Enhanced particle colors with stronger glow
             const colors = [
-                {bg: '#00ff88', shadow: '#00ff88', glow: '0 0 15px #00ff88'}, // Green
-                {bg: '#00aaff', shadow: '#00aaff', glow: '0 0 15px #00aaff'}, // Blue
-                {bg: '#aa00ff', shadow: '#aa00ff', glow: '0 0 15px #aa00ff'}, // Purple
-                {bg: '#ff6600', shadow: '#ff6600', glow: '0 0 15px #ff6600'}, // Orange
-                {bg: '#ff0066', shadow: '#ff0066', glow: '0 0 15px #ff0066'}  // Pink
+                { bg: '#00ff88', shadow: '#00ff88', glow: '0 0 15px #00ff88' }, // Green
+                { bg: '#00aaff', shadow: '#00aaff', glow: '0 0 15px #00aaff' }, // Blue
+                { bg: '#aa00ff', shadow: '#aa00ff', glow: '0 0 15px #aa00ff' }, // Purple
+                { bg: '#ff6600', shadow: '#ff6600', glow: '0 0 15px #ff6600' }, // Orange
+                { bg: '#ff0066', shadow: '#ff0066', glow: '0 0 15px #ff0066' }  // Pink
             ];
-            
+
             // Create base particles for dividers
             const dividers = document.querySelectorAll('.divider-particles');
             dividers.forEach(divider => {
                 createParticles(divider, 65); // More base particles for density
             });
-            
+
             // Function to create particles
             function createParticles(container, count) {
                 for (let i = 0; i < count; i++) {
                     const particle = document.createElement('div');
-                    
+
                     // Random size for particles
                     const sizes = ['small', 'medium', 'large'];
                     const size = sizes[Math.floor(Math.random() * sizes.length)];
                     particle.classList.add('particle', size);
-                    
+
                     // Random properties
                     const color = colors[Math.floor(Math.random() * colors.length)];
                     particle.style.left = `${Math.random() * 100}%`;
@@ -2094,31 +2807,31 @@
                     particle.style.animationDuration = `${Math.random() * 3 + 4}s`; // Faster particles (4-7s)
                     particle.style.background = color.bg;
                     particle.style.boxShadow = color.glow; // Stronger glow
-                    
+
                     container.appendChild(particle);
                 }
             }
-            
+
             // Dynamic particle generation
             function addDynamicParticle() {
                 dividers.forEach(divider => {
                     if (divider.children.length < 120) { // Slightly higher limit
                         const particle = document.createElement('div');
-                        
+
                         // Random size
                         const sizes = ['small', 'medium', 'large'];
                         const size = sizes[Math.floor(Math.random() * sizes.length)];
                         particle.classList.add('particle', size);
-                        
+
                         const color = colors[Math.floor(Math.random() * colors.length)];
                         particle.style.left = `${Math.random() * 100}%`;
                         particle.style.animationDelay = '0s';
                         particle.style.animationDuration = `${Math.random() * 3 + 4}s`; // Faster particles (4-7s)
                         particle.style.background = color.bg;
                         particle.style.boxShadow = color.glow; // Stronger glow
-                        
+
                         divider.appendChild(particle);
-                        
+
                         // Remove after animation completes
                         setTimeout(() => {
                             if (particle.parentNode) {
@@ -2127,14 +2840,14 @@
                         }, parseFloat(particle.style.animationDuration) * 1000 + 1000);
                     }
                 });
-                
+
                 // Generate particles more frequently
                 setTimeout(addDynamicParticle, 400); // Increased frequency
             }
-            
+
             // Start dynamic particle generation
             addDynamicParticle();
-            
+
             // Performance-optimized IntersectionObserver
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -2144,24 +2857,24 @@
                         entry.target.style.animationPlayState = 'paused';
                     }
                 });
-            }, {threshold: 0.1, rootMargin: '0px 0px -100px 0px'});
-            
+            }, { threshold: 0.1, rootMargin: '0px 0px -100px 0px' });
+
             // Observe all particles
             document.querySelectorAll('.particle').forEach(particle => {
                 observer.observe(particle);
             });
-            
+
             // Adjust for device performance
             function adjustForPerformance() {
                 const isMobile = /Mobi|Android/i.test(navigator.userAgent);
                 const particles = document.querySelectorAll('.particle');
-                
+
                 if (isMobile) {
                     // Reduce particle count on mobile
                     dividers.forEach(divider => {
                         const particles = divider.querySelectorAll('.particle');
                         const toRemove = Math.max(0, particles.length - 40);
-                        
+
                         for (let i = 0; i < toRemove; i++) {
                             particles[i].remove();
                         }
@@ -2171,6 +2884,40 @@
             adjustForPerformance();
             window.addEventListener('resize', adjustForPerformance);
         });
+
+        const logo = document.querySelector(".logo");
+        if (logo) {
+            logo.addEventListener("mouseenter", () => {
+                const glitchAnimation = setInterval(() => {
+                    logo.style.textShadow = `${Math.random() * 10 - 5
+                        }px 0 rgba(255,0,0,0.5), ${Math.random() * 10 - 5
+                        }px 0 rgba(0,255,0,0.5), ${Math.random() * 10 - 5
+                        }px 0 rgba(0,0,255,0.5)`;
+                    logo.style.transform = `translate(${Math.random() * 10 - 5}px, ${Math.random() * 10 - 5
+                        }px)`;
+
+                    setTimeout(() => {
+                        logo.style.textShadow = "";
+                        logo.style.transform = "";
+                    }, 50);
+                }, 100);
+
+                logo.addEventListener("mouseleave", () => {
+                    clearInterval(glitchAnimation);
+                    logo.style.textShadow = "";
+                    logo.style.transform = "";
+                });
+            });
+        }        
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000, // animation duration in ms
+            easing: 'ease-in-out', // animation easing
+            once: false, // whether animation should happen only once - while scrolling down
+        });
     </script>
 </body>
+
 </html>
