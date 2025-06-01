@@ -843,6 +843,58 @@
             background-color: rgba(255, 255, 255, 0.3);
         }
 
+        /* Enhanced Particle System Divider */
+        .divider-particles {
+            height: 20px;
+            background: radial-gradient(circle at center, #0e1520, #000);
+            position: relative;
+            overflow: hidden;
+            transform: rotate(-3deg);
+            margin: 30px 0;
+            will-change: transform;
+            z-index: 1;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            animation: particle 8s infinite linear;
+            opacity: 0;
+            will-change: transform, opacity;
+            z-index: 3;
+        }
+
+        /* Particle size variations */
+        .particle.small { width: 3px; height: 3px; }
+        .particle.medium { width: 4px; height: 4px; }
+        .particle.large { width: 5px; height: 5px; }
+
+        /* Animations */
+        @keyframes slideUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes particle {
+            0% {
+                transform: translateY(100%) scale(0.8);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-100%) scale(1.2);
+                opacity: 0;
+            }
+        }
+
         /* Mobile styles */
         @media (max-width: 768px) {
             .nav {
@@ -945,10 +997,14 @@
         <button class="explore-btn" id="explore-btn">Explore Our Services</button>
     </section>
 
+    <div class="divider-particles" id="divider1"></div>
+
     <!-- Experience Section with 3D Glass Spiral -->
     <section id="experience" class="glass-spiral-container">
         <div class="overlay"></div>
     </section>
+
+    <div class="divider-particles" id="divider1"></div>
 
     <!-- Projects Section -->
     <section id="projects">
@@ -982,6 +1038,8 @@
             </div>
         </div>
     </section>
+
+    <div class="divider-particles" id="divider1"></div>
 
     <!-- About Us Section -->
     <section id="about">
@@ -1026,6 +1084,8 @@
         </div>
     </section>
 
+    <div class="divider-particles" id="divider1"></div>
+
     <!-- Contact Section -->
     <section id="contact">
         <h2 class="section-title">CONTACT US</h2>
@@ -1068,6 +1128,8 @@
             </div>
         </div>
     </section>
+
+    <div class="divider-particles" id="divider1"></div>
 
     <!-- Footer -->
     <footer>
@@ -1160,7 +1222,7 @@
         let isModalOpen = false;
         let lastScrollPosition = 0;
 
-        // Service data
+        // Service data - Added 5 new services
         const services = [
             {
                 title: "Content Creation",
@@ -1195,6 +1257,51 @@
                     "Political Campaign Management",
                     "Election Strategy & Planning",
                     "Event Management & Coverage"
+                ]
+            },
+            {
+                title: "Video Production",
+                items: [
+                    "Cinematic Commercials",
+                    "Corporate Videos",
+                    "Event Highlights",
+                    "Explainer Videos"
+                ]
+            },
+            {
+                title: "Web Development",
+                items: [
+                    "Responsive Websites",
+                    "E-commerce Solutions",
+                    "Landing Pages",
+                    "Interactive Web Apps"
+                ]
+            },
+            {
+                title: "Social Media",
+                items: [
+                    "Content Strategy",
+                    "Community Management",
+                    "Campaign Analytics",
+                    "Platform Optimization"
+                ]
+            },
+            {
+                title: "Graphic Design",
+                items: [
+                    "Print Design",
+                    "Digital Graphics",
+                    "Brand Collateral",
+                    "Infographics"
+                ]
+            },
+            {
+                title: "Event Production",
+                items: [
+                    "Live Event Coverage",
+                    "Virtual Events",
+                    "Stage Design",
+                    "Technical Production"
                 ]
             }
         ];
@@ -1324,11 +1431,11 @@
 
         // Create spiral curve
         const radius = 4;
-        const numRectangles = 4;
-        const turns = 1;
+        const numRectangles = 9; // Increased from 4 to 9
+        const turns = 2; // Increased from 1 to 2
         const objPerTurn = numRectangles / turns;
         const totalPoints = 500;
-        const heightStep = 1.5;
+        const heightStep = 1.5; // Adjusted for more panels
 
         const points = [];
         for (let i = 0; i <= totalPoints; i++) {
@@ -1953,7 +2060,117 @@
         setTimeout(() => {
             document.getElementById("accessibility-toolbar").classList.add("visible");
         }, 3000);
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Enhanced particle colors with stronger glow
+            const colors = [
+                {bg: '#00ff88', shadow: '#00ff88', glow: '0 0 15px #00ff88'}, // Green
+                {bg: '#00aaff', shadow: '#00aaff', glow: '0 0 15px #00aaff'}, // Blue
+                {bg: '#aa00ff', shadow: '#aa00ff', glow: '0 0 15px #aa00ff'}, // Purple
+                {bg: '#ff6600', shadow: '#ff6600', glow: '0 0 15px #ff6600'}, // Orange
+                {bg: '#ff0066', shadow: '#ff0066', glow: '0 0 15px #ff0066'}  // Pink
+            ];
+            
+            // Create base particles for dividers
+            const dividers = document.querySelectorAll('.divider-particles');
+            dividers.forEach(divider => {
+                createParticles(divider, 65); // More base particles for density
+            });
+            
+            // Function to create particles
+            function createParticles(container, count) {
+                for (let i = 0; i < count; i++) {
+                    const particle = document.createElement('div');
+                    
+                    // Random size for particles
+                    const sizes = ['small', 'medium', 'large'];
+                    const size = sizes[Math.floor(Math.random() * sizes.length)];
+                    particle.classList.add('particle', size);
+                    
+                    // Random properties
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    particle.style.left = `${Math.random() * 100}%`;
+                    particle.style.animationDelay = `${Math.random() * 5}s`; // Reduced delay
+                    particle.style.animationDuration = `${Math.random() * 3 + 4}s`; // Faster particles (4-7s)
+                    particle.style.background = color.bg;
+                    particle.style.boxShadow = color.glow; // Stronger glow
+                    
+                    container.appendChild(particle);
+                }
+            }
+            
+            // Dynamic particle generation
+            function addDynamicParticle() {
+                dividers.forEach(divider => {
+                    if (divider.children.length < 120) { // Slightly higher limit
+                        const particle = document.createElement('div');
+                        
+                        // Random size
+                        const sizes = ['small', 'medium', 'large'];
+                        const size = sizes[Math.floor(Math.random() * sizes.length)];
+                        particle.classList.add('particle', size);
+                        
+                        const color = colors[Math.floor(Math.random() * colors.length)];
+                        particle.style.left = `${Math.random() * 100}%`;
+                        particle.style.animationDelay = '0s';
+                        particle.style.animationDuration = `${Math.random() * 3 + 4}s`; // Faster particles (4-7s)
+                        particle.style.background = color.bg;
+                        particle.style.boxShadow = color.glow; // Stronger glow
+                        
+                        divider.appendChild(particle);
+                        
+                        // Remove after animation completes
+                        setTimeout(() => {
+                            if (particle.parentNode) {
+                                particle.remove();
+                            }
+                        }, parseFloat(particle.style.animationDuration) * 1000 + 1000);
+                    }
+                });
+                
+                // Generate particles more frequently
+                setTimeout(addDynamicParticle, 400); // Increased frequency
+            }
+            
+            // Start dynamic particle generation
+            addDynamicParticle();
+            
+            // Performance-optimized IntersectionObserver
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animationPlayState = 'running';
+                    } else {
+                        entry.target.style.animationPlayState = 'paused';
+                    }
+                });
+            }, {threshold: 0.1, rootMargin: '0px 0px -100px 0px'});
+            
+            // Observe all particles
+            document.querySelectorAll('.particle').forEach(particle => {
+                observer.observe(particle);
+            });
+            
+            // Adjust for device performance
+            function adjustForPerformance() {
+                const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+                const particles = document.querySelectorAll('.particle');
+                
+                if (isMobile) {
+                    // Reduce particle count on mobile
+                    dividers.forEach(divider => {
+                        const particles = divider.querySelectorAll('.particle');
+                        const toRemove = Math.max(0, particles.length - 40);
+                        
+                        for (let i = 0; i < toRemove; i++) {
+                            particles[i].remove();
+                        }
+                    });
+                }
+            }
+            adjustForPerformance();
+            window.addEventListener('resize', adjustForPerformance);
+        });
     </script>
 </body>
-
 </html>
