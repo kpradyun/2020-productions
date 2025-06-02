@@ -663,57 +663,6 @@
             }
         }
 
-        @media (max-width: 768px) {
-            #projects {
-                padding: 100px 5vw;
-            }
-
-            .section-title {
-                margin-bottom: 60px;
-            }
-
-            .project-grid {
-                grid-template-columns: 1fr;
-                gap: 25px;
-                padding: 0 10px;
-            }
-
-            .project-card {
-                height: 16rem;
-            }
-
-            .project-overlay {
-                padding: 25px;
-            }
-
-            .project-overlay h3 {
-                font-size: 1.5rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            #projects {
-                padding: 80px 4vw;
-            }
-
-            .project-card {
-                height: 14rem;
-            }
-
-            .project-overlay {
-                padding: 20px;
-            }
-
-            .project-overlay h3 {
-                font-size: 1.3rem;
-                margin-bottom: 8px;
-            }
-
-            .project-overlay p {
-                font-size: 0.9rem !important;
-            }
-        }
-
         /* ===== ABOUT US SECTION ===== */
         #about {
             padding: 150px 8vw;
@@ -1082,69 +1031,220 @@
             }
         }
 
-        @media screen and (max-width: 768px) {
-            .about-content {
-                grid-template-columns: 1fr;
-            }
+        /* ===== RESPONSIVE MEDIA QUERIES ===== */
+        @media (min-width: 768px) {
 
-            .about-item {
-                padding: 30px 20px;
-            }
-
-            .project-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .project-card {
-                height: auto;
-                aspect-ratio: 1 / 1;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .services-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .project-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .contact-container {
-                flex-direction: column;
-            }
-
-            .contact-info {
-                padding-right: 0;
-                margin-bottom: 50px;
-            }
-
-            .hero h1 {
-                font-size: 10vw;
-            }
-
-            .hero h2 {
-                font-size: 4vw;
-            }
-
-            h2.section-title {
-                font-size: 7vw;
-            }
-
+            /* Tablet and above */
             .nav {
-                padding: 20px 30px;
+                padding: 25px 50px;
             }
 
             .nav.scrolled {
-                padding: 15px 30px;
+                padding: 15px 50px;
             }
 
+            .logo {
+                font-size: 1.8rem;
+            }
+
+            .nav-links {
+                gap: 40px;
+            }
+
+            .hero h1 {
+                font-size: 4rem;
+            }
+
+            .hero h2 {
+                font-size: 1.7rem;
+            }
+
+            .explore-btn {
+                padding: 18px 50px;
+                font-size: 1.3rem;
+            }
+
+            #projects,
+            #about,
+            #contact {
+                padding: 120px 30px;
+            }
+
+            .section-title {
+                font-size: 3rem;
+                margin-bottom: 80px;
+            }
+
+            .project-grid {
+                grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+                gap: 40px;
+            }
+
+            .project-card {
+                height: 18rem;
+            }
+
+            .about-content {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 35px;
+            }
+
+            .contact-container {
+                flex-direction: row;
+                gap: 60px;
+            }
+
+            .contact-info {
+                flex: 1;
+            }
+
+            .map-container {
+                flex: 1;
+                height: 450px;
+            }
+
+            footer {
+                padding: 80px 30px 40px;
+            }
+
+            .footer-slogan {
+                font-size: 1.8rem;
+            }
+
+            .social-links a {
+                width: 60px;
+                height: 60px;
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (min-width: 992px) {
+
+            /* Desktop */
+            .about-content {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 40px;
+            }
+
+            .hero h1 {
+                font-size: 5rem;
+            }
+
+            .section-title {
+                font-size: 3.5rem;
+            }
+
+            #projects,
+            #about,
+            #contact {
+                padding: 150px 50px;
+            }
+
+            .project-grid {
+                max-width: 1400px;
+            }
+
+            .contact-container {
+                max-width: 1400px;
+            }
+        }
+
+        @media (max-width: 767px) {
+
+            /* Mobile */
             .nav-links {
                 display: none;
             }
 
+            .mobile-menu-btn {
+                display: block;
+            }
+
             .scroll-indicator {
                 display: none;
+            }
+
+            .project-overlay {
+                padding: 20px;
+            }
+
+            .project-overlay h3 {
+                font-size: 1.3rem;
+            }
+
+            .project-overlay p {
+                font-size: 0.85rem !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+
+            /* Small mobile */
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero h2 {
+                font-size: 1.1rem;
+                margin-bottom: 30px;
+            }
+
+            .explore-btn {
+                padding: 14px 35px;
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+                margin-bottom: 40px;
+            }
+
+            .project-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            .project-card {
+                height: 14rem;
+            }
+
+            .about-item {
+                padding: 25px 20px;
+            }
+
+            .about-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+
+            .about-item h3 {
+                font-size: 1.3rem;
+            }
+
+            .map-container {
+                height: 300px;
+            }
+
+            .footer-logo {
+                font-size: 1.8rem;
+            }
+
+            .footer-slogan {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* Touch devices */
+        @media (pointer: coarse) {
+
+            #cursor,
+            #cursor-dot {
+                display: none !important;
+            }
+
+            body {
+                cursor: auto;
             }
         }
 
@@ -1210,63 +1310,6 @@
             100% {
                 transform: translateY(-100%) scale(1.2);
                 opacity: 0;
-            }
-        }
-
-        /* Mobile styles */
-        @media (max-width: 768px) {
-            .nav {
-                padding: 20px 30px;
-            }
-
-            .nav.scrolled {
-                padding: 15px 30px;
-            }
-
-            .nav-links {
-                gap: 20px;
-            }
-
-            .hero h1 {
-                font-size: 3rem;
-            }
-
-            .hero h2 {
-                font-size: 1.3rem;
-            }
-
-            .spiral-title {
-                font-size: 2.5rem;
-            }
-
-            .spiral-subtitle {
-                font-size: 1.1rem;
-            }
-
-            .section-title {
-                font-size: 7vw;
-            }
-
-            .contact-container {
-                flex-direction: column;
-                gap: 40px;
-            }
-
-            .contact-info {
-                padding-right: 0;
-                margin-bottom: 0;
-            }
-
-            .projects-container {
-                grid-template-columns: 1fr;
-            }
-
-            .about-content {
-                grid-template-columns: 1fr;
-            }
-
-            .modal-features {
-                grid-template-columns: 1fr;
             }
         }
 
@@ -2110,7 +2153,7 @@
             envMapIntensity: 1.2,
             side: THREE.DoubleSide
         });
-
+        
         glassMaterial.opacity = 0.65;
         glassMaterial.emissive = new THREE.Color(0x000000);
         glassMaterial.emissiveIntensity = 0;
