@@ -1860,32 +1860,152 @@
         const spiralContainer = document.querySelector('.glass-spiral-container');
 
         // Scene setup
-        const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0x0A0A0F);
+        const spiralScene = new THREE.Scene();
+        spiralScene.background = new THREE.Color(0x0A0A0F);
 
         // Camera
-        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const spiralCamera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
 
         // Renderer
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.outputColorSpace = THREE.SRGBColorSpace;
-        renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.toneMappingExposure = 1.0;
-        renderer.shadowMap.enabled = true;
-        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-        document.querySelector('.glass-spiral-container').appendChild(renderer.domElement);
+        const spiralRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        spiralRenderer.setSize(window.innerWidth, window.innerHeight);
+        spiralRenderer.outputColorSpace = THREE.SRGBColorSpace;
+        spiralRenderer.toneMapping = THREE.ACESFilmicToneMapping;
+        spiralRenderer.toneMappingExposure = 1.0;
+        spiralRenderer.shadowMap.enabled = true;
+        spiralRenderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        spiralContainer.appendChild(spiralRenderer.domElement);
 
         // Lights
         const ambient = new THREE.HemisphereLight(0xffffff, 0x0A0A0F, 0.15);
-        scene.add(ambient);
+        spiralScene.add(ambient);
 
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.4);
-        directionalLight.position.set(20, 30, 20);
-        directionalLight.castShadow = true;
-        directionalLight.shadow.mapSize.width = 1024;
-        directionalLight.shadow.mapSize.height = 1024;
-        scene.add(directionalLight);
+        const sdirectionalLight = new THREE.DirectionalLight(0xffffff, 0.4);
+        sdirectionalLight.position.set(20, 30, 20);
+        sdirectionalLight.castShadow = true;
+        sdirectionalLight.shadow.mapSize.width = 1024;
+        sdirectionalLight.shadow.mapSize.height = 1024;
+        spiralScene.add(sdirectionalLight);
+
+        // ====== LOGO MODEL SECTION SETUP ======
+        const modelSection = document.getElementById('model-section');
+        const loadingIndicator = document.getElementById('loading');
+        const modelScene = new THREE.Scene();
+        const modelCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const modelRenderer = new THREE.WebGLRenderer({ alpha: true });
+        modelRenderer.setSize(window.innerWidth, window.innerHeight);
+        modelRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        modelRenderer.shadowMap.enabled = true;
+        modelRenderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        modelSection.appendChild(modelRenderer.domElement);
+
+        // Lighting for model section
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+        modelScene.add(ambientLight);
+
+        const mdirectionalLight = new THREE.DirectionalLight(0xffffff, 0.4);
+        mdirectionalLight.position.set(5, 5, 5);
+        mdirectionalLight.castShadow = true;
+        mdirectionalLight.shadow.mapSize.width = 2048;
+        mdirectionalLight.shadow.mapSize.height = 2048;
+        spiralScene.add(mdirectionalLight);
+
+        const directionalLight2 = new THREE.DirectionalLight(0xffffff, 0.3);
+        directionalLight2.position.set(-5, -5, 5);
+        modelScene.add(directionalLight2);
+
+        const pointLight = new THREE.PointLight(0xffffff, 0.5, 100);
+        pointLight.position.set(0, 0, 10);
+        modelScene.add(pointLight);
+
+        // Model variables
+        let vinMediaLogo = null;
+        let vinMediaLogoLoaded = false;
+        let modelSectionActive = false;
+        let modelRotationSpeed = 0.01;
+        modelCamera.position.z = 15;
+
+        // Intersection Observer for model section
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                modelSectionActive = entry.isIntersecting;
+            });
+        }, { threshold: 0.2 });
+        observer.observe(modelSection);
+
+        // Load GLB model for logo section
+        function loadVinMediaLogo() {
+            if (vinMediaLogoLoaded) return;
+
+            vinMediaLogoLoaded = true;
+            const loader = new GLTFLoader();
+
+            loader.load(
+                '3D_Text_logo.glb',
+                (gltf) => {
+                    vinMediaLogo = gltf.scene;
+                    vinMediaLogo.scale.set(50, 50, 50);
+                    vinMediaLogo.position.set(0, -5, 0);
+
+                    if (!modelScene.children.includes(vinMediaLogo)) {
+                        modelScene.add(vinMediaLogo);
+                        console.log('Model loaded and added to scene.');
+                    }
+
+                    loadingIndicator.style.display = 'none';
+                },
+                undefined,
+                (error) => {
+                    console.error('Model load error:', error);
+                    createFallbackLogoWithText();
+                    loadingIndicator.style.display = 'none';
+                }
+            );
+        }
+
+        function createFallbackLogoWithText() {
+            const loader = new FontLoader();
+
+            loader.load('https://cdn.jsdelivr.net/npm/three@0.150.1/examples/fonts/helvetiker_regular.typeface.json', (font) => {
+                const group = new THREE.Group();
+
+                const createTextMesh = (text, font, yOffset) => {
+                    const textGeo = new TextGeometry(text, {
+                        font: font,
+                        size: 1,
+                        height: 0.3,
+                        curveSegments: 12,
+                        bevelEnabled: true,
+                        bevelThickness: 0.03,
+                        bevelSize: 0.02,
+                        bevelSegments: 5
+                    });
+
+                    textGeo.computeBoundingBox();
+                    textGeo.center(); // Center the pivot
+
+                    const material = new THREE.MeshPhongMaterial({ color: 0xff4081, shininess: 100 });
+                    const textMesh = new THREE.Mesh(textGeo, material);
+                    textMesh.castShadow = true;
+                    textMesh.receiveShadow = true;
+                    textMesh.position.y = yOffset;
+
+                    return textMesh;
+                };
+
+                // Add "2020" on top
+                group.add(createTextMesh("2020", font, 0.6));
+
+                // Add "PRODUCTIONS" below
+                group.add(createTextMesh("PRODUCTIONS", font, -1.2));
+
+                vinMediaLogo = group;
+                vinMediaLogo.scale.set(2, 2, 2);
+                modelScene.add(vinMediaLogo);
+            });
+        }
+        // Initialize model
+        loadVinMediaLogo();
 
         // Extended Palette lights with new colors added
         const paletteLights = [
@@ -1921,7 +2041,7 @@
         // Apply shadow casting and add to scene
         paletteLights.forEach(light => {
             light.castShadow = true;
-            scene.add(light);
+            spiralScene.add(light);
         });
 
         const spiralSpotlight = new THREE.SpotLight(0x1A2FA4, 60);
@@ -1932,11 +2052,11 @@
         spiralSpotlight.castShadow = true;
         spiralSpotlight.shadow.mapSize.width = 1024;
         spiralSpotlight.shadow.mapSize.height = 1024;
-        scene.add(spiralSpotlight);
+        spiralScene.add(spiralSpotlight);
 
         const accentLight = new THREE.PointLight(0xE156A8, 2, 25);
         accentLight.position.set(0, 15, 0);
-        scene.add(accentLight);
+        spiralScene.add(accentLight);
 
         // Create texture loader
         const textureLoader = new THREE.TextureLoader();
@@ -1968,7 +2088,7 @@
             'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/cube/Park2/posz.jpg',
             'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/cube/Park2/negz.jpg'
         ]);
-        scene.environment = envMap;
+        spiralScene.environment = envMap;
 
         const glassMaterial = new THREE.MeshPhysicalMaterial({
             color: 0xffffff,
@@ -2093,7 +2213,7 @@
             context.globalAlpha = 1.0;
 
             const texture = new THREE.CanvasTexture(canvas);
-            texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+            texture.anisotropy = spiralRenderer.capabilities.getMaxAnisotropy();
             texture.minFilter = THREE.LinearFilter;
             texture.magFilter = THREE.LinearFilter;
             texture.needsUpdate = true;
@@ -2135,7 +2255,20 @@
             let lookAtTarget = new THREE.Vector3().copy(position).add(outward);
             glassPanel.lookAt(lookAtTarget);
 
-            scene.add(glassPanel);
+            spiralScene.add(glassPanel);
+            // Set initial opacity for fade-in effect
+            glassPanel.material.opacity = 0;
+            let fadeDelay = i * 100; // staggered fade
+            setTimeout(() => {
+                const fadeInterval = setInterval(() => {
+                    glassPanel.material.opacity += 0.03;
+                    if (glassPanel.material.opacity >= 0.65) {
+                        glassPanel.material.opacity = 0.65;
+                        clearInterval(fadeInterval);
+                    }
+                }, 30);
+            }, fadeDelay);
+            // Store rectangle data
             rectangles.push({
                 position: t,
                 mesh: glassPanel,
@@ -2165,13 +2298,13 @@
             let curvePos = curve.getPoint(topPanelPosition);
             let lookAheadPos = curve.getPoint(Math.min(1, topPanelPosition + 0.05));
 
-            camera.position.set(
+            spiralCamera.position.set(
                 curvePos.x * 1.5,
                 curvePos.y + 5,
                 curvePos.z * 1.5 + 10
             );
 
-            camera.lookAt(lookAheadPos);
+            spiralCamera.lookAt(lookAheadPos);
         }
 
         // Update camera position
@@ -2186,8 +2319,8 @@
                 dirToCenter.clone().multiplyScalar(-5)
             );
 
-            camera.position.copy(cameraPos);
-            camera.lookAt(lookAheadPos);
+            spiralCamera.position.copy(cameraPos);
+            spiralCamera.lookAt(lookAheadPos);
         }
 
         // Update lights with all palette lights animated
@@ -2224,41 +2357,50 @@
         // Animation loop
         function animate(currentTime) {
             requestAnimationFrame(animate);
-            updateLights(currentTime);
 
-            // Smooth scrolling
+            // Update spiral scene
+            updateLights(currentTime);
             scrollPosition += (targetScrollPosition - scrollPosition) * scrollDamping;
 
-            // Auto-snap to nearest panel when not scrolling
             if (!isScrolling) {
                 const nearestRectPos = Math.round(scrollPosition * numRectangles) / numRectangles;
                 const distToNearest = Math.abs(scrollPosition - nearestRectPos);
-
                 if (distToNearest < 0.01) {
                     scrollPosition = scrollPosition * 0.9 + nearestRectPos * 0.1;
                 }
             }
 
-            // Only update highlights when necessary
             if (Math.abs(lastHighlightPosition - scrollPosition) > 0.001) {
                 highlightNearestRectangle();
                 lastHighlightPosition = scrollPosition;
             }
 
-            // Update camera position if it has changed significantly
             if (Math.abs(lastScrollPosition - scrollPosition) > 0.001) {
                 updateCameraPosition();
                 lastScrollPosition = scrollPosition;
             }
 
-            renderer.render(scene, camera);
+            // Update model scene
+            if (modelSectionActive && vinMediaLogo) {
+                vinMediaLogo.rotation.y = (vinMediaLogo.rotation.y + modelRotationSpeed) % (Math.PI);
+            }
+
+            // Render both scenes
+            spiralRenderer.render(spiralScene, spiralCamera);
+            modelRenderer.render(modelScene, modelCamera);
         }
 
         // Event listeners
         window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
+            // Spiral resize
+            spiralCamera.aspect = window.innerWidth / window.innerHeight;
+            spiralCamera.updateProjectionMatrix();
+            spiralRenderer.setSize(window.innerWidth, window.innerHeight);
+
+            // Model resize
+            modelCamera.aspect = window.innerWidth / window.innerHeight;
+            modelCamera.updateProjectionMatrix();
+            modelRenderer.setSize(window.innerWidth, window.innerHeight);
         });
 
         // Mouse enter/leave for spiral container
@@ -2325,11 +2467,14 @@
         const brightPink = new THREE.Color(0xff56a8); // bright pink
         const defaultColor = new THREE.Color(0xffffff); // original white or whatever you use
 
+        // Mouse move interaction for highlighting panels
+        let hasMovedMouse = false;
         document.addEventListener('mousemove', (event) => {
+            if (!hasMovedMouse) hasMovedMouse = true;
             mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
             mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-            raycaster.setFromCamera(mouse, camera);
+            raycaster.setFromCamera(mouse, spiralCamera);
             const intersects = raycaster.intersectObjects(rectangles.map(r => r.mesh), false);
 
             if (intersects.length > 0) {
@@ -2364,7 +2509,7 @@
 
         function highlightNearestRectangle() {
             // Don't update highlights while scrolling to prevent glitching
-            if (isScrolling) return;
+            if (!hasMovedMouse || isScrolling) return;
 
             let minDist = 1;
             let nearest = null;
@@ -2389,7 +2534,8 @@
                     // Smooth scale transitions
                     const targetScale = dist < 0.05 ? 1.05 : 1.0;
                     const currentScale = rect.mesh.scale.x;
-                    const newScale = currentScale + (targetScale - currentScale) * 0.1;
+                    const easeOut = 1 - Math.pow(1 - 0.1, 3); // smoother easing
+                    const newScale = currentScale + (targetScale - currentScale) * easeOut;
                     rect.mesh.scale.set(newScale, newScale, newScale);
                 }
                 if (dist < minDist) {
@@ -2399,7 +2545,7 @@
             });
 
             // Only highlight the nearest panel with smooth transitions
-            if (nearest && nearest !== hoverHighlightedPanel && !isScrolling) {
+            if (nearest && nearest !== hoverHighlightedPanel) {
                 nearest.mesh.material.opacity = Math.min(1.0, nearest.mesh.material.opacity + 0.1);
                 nearest.mesh.material.emissive.set(0x444444);
                 nearest.mesh.material.emissiveIntensity = Math.min(0.6, nearest.mesh.material.emissiveIntensity + 0.1);
@@ -2572,13 +2718,13 @@
         }
 
         // Service panel click handler
-        renderer.domElement.addEventListener('click', (event) => {
+        spiralRenderer.domElement.addEventListener('click', (event) => {
             // Calculate mouse position in normalized device coordinates
             mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
             mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
 
             // Update the picking ray with the camera and mouse position
-            raycaster.setFromCamera(mouse, camera);
+            raycaster.setFromCamera(mouse, spiralCamera);
 
             // Calculate objects intersecting the picking ray
             const intersects = raycaster.intersectObjects(rectangles.map(r => r.mesh));
@@ -2718,7 +2864,7 @@
 
                 if (accessibilitySettings.reducedMotion) {
                     cancelAnimationFrame(animationId);
-                    scene.traverse((child) => {
+                    modelScene.traverse((child) => {
                         if (child instanceof THREE.Object3D)
                             child.rotation.set(0, 0, 0);
                     });
@@ -2915,7 +3061,7 @@
         AOS.init({
             duration: 1000, // animation duration in ms
             easing: 'ease-in-out', // animation easing
-            once: false, // whether animation should happen only once - while scrolling down
+            once: false,
         });
     </script>
 </body>
